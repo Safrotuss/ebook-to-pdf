@@ -52,13 +52,29 @@ export class CaptureService {
       }
 
       const fullImage = sources[0].thumbnail.toPNG();
+      const metadata = await sharp(fullImage).metadata();
+      
+      // 실제 이미지 크기와 요청 영역 확인
+      const actualWidth = metadata.width || 0;
+      const actualHeight = metadata.height || 0;
+      
+      const scaledX = Math.floor(region.x * scaleFactor);
+      const scaledY = Math.floor(region.y * scaleFactor);
+      const scaledWidth = Math.floor(region.width * scaleFactor);
+      const scaledHeight = Math.floor(region.height * scaleFactor);
+      
+      // 영역이 이미지를 벗어나지 않도록 보정
+      const safeX = Math.max(0, Math.min(scaledX, actualWidth - 1));
+      const safeY = Math.max(0, Math.min(scaledY, actualHeight - 1));
+      const safeWidth = Math.min(scaledWidth, actualWidth - safeX);
+      const safeHeight = Math.min(scaledHeight, actualHeight - safeY);
       
       const croppedImage = await sharp(fullImage)
         .extract({
-          left: Math.floor(region.x * scaleFactor),
-          top: Math.floor(region.y * scaleFactor),
-          width: Math.floor(region.width * scaleFactor),
-          height: Math.floor(region.height * scaleFactor)
+          left: safeX,
+          top: safeY,
+          width: safeWidth,
+          height: safeHeight
         })
         .png({ quality: 100, compressionLevel: 0 })
         .toBuffer();

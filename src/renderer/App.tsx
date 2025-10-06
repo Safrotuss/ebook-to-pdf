@@ -320,12 +320,6 @@ export const App: React.FC = () => {
             disabled={isCapturing}
           />
         </div>
-
-        <div className="info-box">
-          <div className="info-text">
-            {t('form.captureInfo')}
-          </div>
-        </div>
       </div>
 
       {progress.status !== 'idle' && (
@@ -345,6 +339,12 @@ export const App: React.FC = () => {
           )}
         </div>
       )}
+
+      <div className="info-box">
+        <div className="info-text">
+          {t('form.captureInfo')}
+        </div>
+      </div>
 
       <div className="button-group">
         <button

@@ -17,7 +17,8 @@
     "savePathPlaceholder": "저장 위치 선택 (기본값: 현재 폴더)",
     "captureSpeedPlaceholder": "캡처 간격 (밀리초)",
     "createPDF": "PDF로 만들기",
-    "reset": "초기화"
+    "reset": "초기화",
+    "refreshPermission": "권한 새로고침"
   },
   "status": {
     "ready": "준비됨",
@@ -39,7 +40,8 @@
     "coordinateSetMode": "좌표 설정 모드 - 목표 위치를 클릭하세요",
     "overlayTitle": "좌표를 선택하려면 아무 곳이나 클릭하세요",
     "overlayCancel": "ESC 키를 눌러 취소",
-    "overlayCoords": "X: {{x}}, Y: {{y}}"
+    "overlayCoords": "X: {{x}}, Y: {{y}}",
+    "permissionRequired": "권한 설정을 해주세요."
   },
   "permission": {
     "screenRecordingTitle": "화면 녹화 권한 필요",

@@ -231,6 +231,47 @@ input:disabled {
   background-color: #000;
 }
 
+.refresh-permission-button {
+  padding: 12px 24px;
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-permission-button:hover {
+  background-color: #1976D2;
+}
+
+.refresh-permission-button:active {
+  background-color: #0D47A1;
+}
+
+.refresh-permission-button-small {
+  display: inline-block;
+  margin: 10px 0 5px 0;
+  padding: 6px 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-permission-button-small:hover {
+  background-color: #555;
+}
+
+.refresh-permission-button-small:active {
+  background-color: #000;
+}
+
 .open-folder-button-small {
   display: inline-block;
   margin: 10px 0 5px 0;

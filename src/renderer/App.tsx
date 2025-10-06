@@ -58,6 +58,7 @@ export const App: React.FC = () => {
           errorMsg.includes('画面録画') ||
           errorMsg.includes('屏幕录制') ||
           errorMsg.includes('Failed to get sources')) {
+        alert(t('message.permissionRequired') || 'Screen recording permission required! Please check the settings.');
         return;
       }
     }
@@ -115,6 +116,32 @@ export const App: React.FC = () => {
     setCaptureSpeed(String(DEFAULT_CAPTURE_SPEED));
     setProgress({ current: 0, total: 0, status: 'idle' });
     await window.electronAPI.reset();
+  };
+
+  const handleRefreshPermission = async (): Promise<void> => {
+    try {
+      await window.electronAPI.startCapture({
+        topLeft: { x: 0, y: 0 },
+        bottomRight: { x: 1, y: 1 },
+        totalPages: 1,
+        fileName: 'test',
+        captureSpeed: 1000,
+        savePath: undefined,
+        language: i18n.language
+      });
+      
+      alert('권한이 확인되었습니다!');
+      setProgress({ current: 0, total: 0, status: 'idle' });
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      if (errorMsg.includes('Screen recording permission') || 
+          errorMsg.includes('화면 녹화 권한') || 
+          errorMsg.includes('画面録画') ||
+          errorMsg.includes('屏幕录制') ||
+          errorMsg.includes('Failed to get sources')) {
+        alert(t('message.permissionRequired'));
+      }
+    }
   };
 
   const changeLanguage = (lang: string): void => {
@@ -188,6 +215,20 @@ export const App: React.FC = () => {
         elements.push(<React.Fragment key={`line-${index}`}>{line}<br /></React.Fragment>);
       }
     });
+    
+    // 맨 마지막에 권한 새로고침 버튼 추가 (엔터 한 개만)
+    if (progress.command) {
+      elements.push(
+        <React.Fragment key="refresh-permission">
+          <button
+            className="refresh-permission-button-small"
+            onClick={handleRefreshPermission}
+          >
+            {t('form.refreshPermission') || 'Refresh Permission'}
+          </button>
+        </React.Fragment>
+      );
+    }
     
     return <>{elements}</>;
   };

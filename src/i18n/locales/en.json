@@ -17,7 +17,8 @@
     "savePathPlaceholder": "Select save location (default: current folder)",
     "captureSpeedPlaceholder": "Capture interval (milliseconds)",
     "createPDF": "Create PDF",
-    "reset": "Reset"
+    "reset": "Reset",
+    "refreshPermission": "Refresh Permission"
   },
   "status": {
     "ready": "Ready",
@@ -39,7 +40,8 @@
     "coordinateSetMode": "Coordinate Setting Mode - Click the target position",
     "overlayTitle": "Click anywhere to select coordinate",
     "overlayCancel": "Press ESC to cancel",
-    "overlayCoords": "X: {{x}}, Y: {{y}}"
+    "overlayCoords": "X: {{x}}, Y: {{y}}",
+    "permissionRequired": "Please configure the screen recording permission."
   },
   "permission": {
     "screenRecordingTitle": "Screen Recording Permission Required",

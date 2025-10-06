@@ -5,11 +5,11 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "npm run build && npx electron .",
     "dev": "webpack-dev-server --config webpack.config.js --mode development",
-    "package": "npm run build && electron-builder build --mac --win",
+    "start": "npm run build && npx electron .",
     "package:mac": "npm run build && electron-builder build --mac",
-    "package:win": "npm run build && electron-builder build --win"
+    "package:win": "npm run build && electron-builder build --win",
+    "package": "npm run build && electron-builder build --mac --win"
   },
   "build": {
     "appId": "com.efforthye.ebook-to-pdf",

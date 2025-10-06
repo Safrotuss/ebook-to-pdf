@@ -1,16 +1,17 @@
 {
   "name": "ebook-to-pdf",
   "version": "1.0.0",
-  "description": "E-Book을 PDF로 변환하는 데스크톱 애플리케이션",
+  "description": "E-Book\uc744 PDF\ub85c \ubcc0\ud658\ud558\ub294 \ub370\uc2a4\ud06c\ud1b1 \uc560\ud50c\ub9ac\ucf00\uc774\uc158",
   "main": "dist/main.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "dev": "webpack-dev-server --config webpack.config.js --mode development",
     "start": "npm run build && npx electron .",
     "icon": "bash scripts/generate-icons.sh",
-    "package:mac": "npm run build && electron-builder build --mac",
-    "package:win": "npm run build && electron-builder build --win",
-    "package": "npm run build && electron-builder build --mac --win"
+    "package:mac": "npm run build && electron-builder build --mac && npm run zip",
+    "package:win": "npm run build && electron-builder build --win && npm run zip",
+    "package": "npm run build && electron-builder build --mac --win && npm run zip",
+    "zip": "bash scripts/create-zips.sh"
   },
   "build": {
     "appId": "com.efforthye.ebook-to-pdf",

@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "E-Book PDF Generator",
+    "madeBy": "Made By EastShine"
+  },
+  "form": {
+    "topLeft": "Top Left Coordinate",
+    "bottomRight": "Bottom Right Coordinate",
+    "totalPages": "Total Pages",
+    "pdfName": "PDF Name",
+    "captureSpeed": "Capture Speed (ms)",
+    "clickCoordinate": "Click Coordinate",
+    "totalPagesPlaceholder": "Enter total number of pages.",
+    "pdfNamePlaceholder": "Enter the name of the PDF to create.",
+    "captureSpeedPlaceholder": "Capture interval (milliseconds)",
+    "createPDF": "Create PDF",
+    "reset": "Reset"
+  },
+  "status": {
+    "ready": "Ready",
+    "capturing": "Capturing...",
+    "converting": "Converting to PDF...",
+    "completed": "PDF conversion completed!",
+    "error": "Error occurred"
+  },
+  "message": {
+    "clickTopLeft": "Click the top left of the image.",
+    "clickBottomRight": "Click the bottom right of the image.",
+    "fillAllFields": "Please fill in all fields.",
+    "coordinatesNotSet": "Please set the coordinates.",
+    "capturingPage": "Capturing page {{current}}/{{total}}...",
+    "convertingToPDF": "Converting to PDF...",
+    "conversionComplete": "PDF conversion completed!",
+    "errorOccurred": "An error occurred: {{error}}"
+  },
+  "permission": {
+    "screenRecordingTitle": "Screen Recording Permission Required",
+    "screenRecordingMessage": "This app requires screen recording permission to capture the screen.",
+    "accessibilityTitle": "Accessibility Permission Required",
+    "accessibilityMessage": "This app requires accessibility permission for keyboard input.",
+    "openSettings": "Open System Preferences"
+  }
+}

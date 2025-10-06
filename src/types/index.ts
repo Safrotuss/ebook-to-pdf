@@ -25,7 +25,10 @@ export interface CaptureProgress {
   total: number;
   status: 'idle' | 'capturing' | 'converting' | 'completed' | 'error';
   message?: string;
-  command?: string; // 복사 가능한 터미널 명령어
+  commands?: {
+    screenRecording: string;
+    accessibility: string;
+  };
 }
 
 export const DEFAULT_CAPTURE_SPEED = 1000;
@@ -38,6 +41,7 @@ declare global {
       getCursorPosition: (language: string) => Promise<Point>;
       setCoordinate: (point: Point) => Promise<void>;
       selectSavePath: () => Promise<string | null>;
+      checkPermissions: (language: string) => Promise<boolean>;
       startCapture: (settings: CaptureSettings) => Promise<void>;
       onCaptureProgress: (callback: (progress: CaptureProgress) => void) => void;
       reset: () => Promise<void>;

@@ -11,10 +11,10 @@ let pdfService: PDFService | null = null;
 let pendingCoordinateResolve: ((point: Point) => void) | null = null;
 
 const permissionGuidesMac: Record<string, string> = {
-  en: 'Screen recording permission required.\n\n[macOS]\nPlease follow these steps.\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Screen Recording\n3. Click the lock icon to make changes\n4. Click + button and add this app.\n   /Applications/Electron.app\n   OR drag from node_modules/electron/dist/Electron.app\n5. Enable the checkbox\n6. Restart this app',
-  ko: '화면 녹화 권한이 필요합니다.\n\n[macOS]\n다음 단계를 따라주세요.\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 화면 녹화로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다. (현재 폴더 열기 버튼 클릭)\n   /Applications/Electron.app\n   또는 node_modules/electron/dist/Electron.app에서 드래그\n5. 체크박스를 활성화합니다\n6. 이 앱을 재시작합니다',
-  ja: '画面録画の許可が必要です。\n\n[macOS]\n次の手順に従ってください.\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加. (現在のフォルダを開くボタンをクリック)\n   /Applications/Electron.app\n   またはnode_modules/electron/dist/Electron.appからドラッグ\n5. チェックボックスを有効にする\n6. このアプリを再起動',
-  zh: '需要屏幕录制权限。\n\n[macOS]\n请按照以下步骤操作.\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序. (点击打开当前文件夹按钮)\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用'
+  en: 'Permissions required.\n\n[macOS]\nPlease follow these steps.\n\n[Screen Recording Permission]\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Screen Recording\n3. Click the lock icon to make changes\n4. Click + button and add this app (use the button below to open app location)\n5. Enable the checkbox\n\n[Accessibility Permission]\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Accessibility\n3. Click the lock icon to make changes\n4. Click + button and add this app (use the button below to open app location)\n5. Enable the checkbox\n\n6. Restart this app',
+  ko: '권한이 필요합니다.\n\n[macOS]\n다음 단계를 따라주세요.\n\n[화면 녹화 권한]\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 화면 녹화로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다 (아래 버튼으로 앱 위치 열기)\n5. 체크박스를 활성화합니다\n\n[접근성 권한]\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 접근성으로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다 (아래 버튼으로 앱 위치 열기)\n5. 체크박스를 활성화합니다\n\n6. 이 앱을 재시작합니다',
+  ja: '許可が必要です。\n\n[macOS]\n次の手順に従ってください.\n\n[画面録画の許可]\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加 (下のボタンでアプリの場所を開く)\n5. チェックボックスを有効にする\n\n[アクセシビリティの許可]\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > アクセシビリティに移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加 (下のボタンでアプリの場所を開く)\n5. チェックボックスを有効にする\n\n6. このアプリを再起動',
+  zh: '需要权限。\n\n[macOS]\n请按照以下步骤操作.\n\n[屏幕录制权限]\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序 (使用下面的按钮打开应用位置)\n5. 启用复选框\n\n[辅助功能权限]\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 辅助功能\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序 (使用下面的按钮打开应用位置)\n5. 启用复选框\n\n6. 重新启动此应用'
 };
 
 const permissionGuidesWindows: Record<string, string> = {
@@ -24,7 +24,10 @@ const permissionGuidesWindows: Record<string, string> = {
   zh: '需要屏幕录制权限。\n\n[Windows]\nWindows上不需要额外权限.\n如果应用无法工作.\n1. 检查Windows Defender防火墙设置\n2. 以管理员身份运行应用\n3. 检查杀毒软件设置'
 };
 
-const quickAccessCommand = 'open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"';
+const quickAccessCommands: Record<string, string> = {
+  screenRecording: 'open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"',
+  accessibility: 'open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"'
+};
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -257,6 +260,46 @@ ipcMain.handle('select-save-path', async (): Promise<string | null> => {
   return result.filePaths[0];
 });
 
+ipcMain.handle('check-permissions', async (_, language: string): Promise<boolean> => {
+  try {
+    const testSources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 1, height: 1 }
+    });
+    
+    if (testSources.length === 0) {
+      const platform = process.platform;
+      const errorMsg = platform === 'darwin' 
+        ? (permissionGuidesMac[language] || permissionGuidesMac.en)
+        : (permissionGuidesWindows[language] || permissionGuidesWindows.en);
+      
+      mainWindow?.webContents.send('capture-progress', {
+        current: 0,
+        total: 0,
+        status: 'error',
+        message: errorMsg,
+        commands: platform === 'darwin' ? quickAccessCommands : undefined
+      });
+      return false;
+    }
+    return true;
+  } catch (error) {
+    const platform = process.platform;
+    const errorMsg = platform === 'darwin' 
+      ? (permissionGuidesMac[language] || permissionGuidesMac.en)
+      : (permissionGuidesWindows[language] || permissionGuidesWindows.en);
+    
+    mainWindow?.webContents.send('capture-progress', {
+      current: 0,
+      total: 0,
+      status: 'error',
+      message: errorMsg,
+      commands: platform === 'darwin' ? quickAccessCommands : undefined
+    });
+    return false;
+  }
+});
+
 ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<void> => {
   if (!captureService || !pdfService) {
     throw new Error('Services not initialized');
@@ -280,7 +323,7 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
         total: settings.totalPages,
         status: 'error',
         message: errorMsg,
-        command: platform === 'darwin' ? quickAccessCommand : undefined
+        commands: platform === 'darwin' ? quickAccessCommands : undefined
       });
       throw new Error(errorMsg);
     }
@@ -296,7 +339,7 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
       total: settings.totalPages,
       status: 'error',
       message: errorMsg,
-      command: platform === 'darwin' ? quickAccessCommand : undefined
+      commands: platform === 'darwin' ? quickAccessCommands : undefined
     });
     throw new Error(errorMsg);
   }
@@ -325,6 +368,24 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    
+    if (errorMessage.includes('Failed to send keyboard input')) {
+      const lang = settings.language || 'en';
+      const platform = process.platform;
+      const errorMsg = platform === 'darwin' 
+        ? (permissionGuidesMac[lang] || permissionGuidesMac.en)
+        : (permissionGuidesWindows[lang] || permissionGuidesWindows.en);
+      
+      mainWindow?.webContents.send('capture-progress', {
+        current: 0,
+        total: settings.totalPages,
+        status: 'error',
+        message: errorMsg,
+        commands: platform === 'darwin' ? quickAccessCommands : undefined
+      });
+      throw new Error(errorMsg);
+    }
+    
     mainWindow?.webContents.send('capture-progress', {
       current: 0,
       total: settings.totalPages,

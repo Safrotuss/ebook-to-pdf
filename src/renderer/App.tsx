@@ -41,28 +41,14 @@ export const App: React.FC = () => {
   };
 
   const handleStartCapture = async (): Promise<void> => {
-    try {
-      await window.electronAPI.startCapture({
-        topLeft: { x: 0, y: 0 },
-        bottomRight: { x: 1, y: 1 },
-        totalPages: 1,
-        fileName: 'test',
-        captureSpeed: 1000,
-        savePath: undefined,
-        language: i18n.language
-      });
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      if (errorMsg.includes('Screen recording permission') || 
-          errorMsg.includes('화면 녹화 권한') || 
-          errorMsg.includes('画面録画') ||
-          errorMsg.includes('屏幕录制') ||
-          errorMsg.includes('Failed to get sources')) {
-        alert(t('message.permissionRequired') || 'Screen recording permission required! Please check the settings.');
-        return;
-      }
+    // 무조건 맨 먼저 권한 체크 (필드 상관없이)
+    const hasPermission = await window.electronAPI.checkPermissions(i18n.language);
+    if (!hasPermission) {
+      // 권한 없으면 화면에 에러 표시하고 종료
+      return;
     }
 
+    // 권한 있으면 이제 필드 검증
     if (!totalPages || !fileName) {
       alert(t('message.fillAllFields'));
       return;
@@ -90,6 +76,7 @@ export const App: React.FC = () => {
       return;
     }
 
+    // 모든 검증 통과, 실제 캡처 시작
     try {
       await window.electronAPI.startCapture({
         topLeft,
@@ -102,8 +89,6 @@ export const App: React.FC = () => {
       });
     } catch (error) {
       console.error('Capture error:', error);
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      alert(errorMsg);
     }
   };
 
@@ -120,27 +105,14 @@ export const App: React.FC = () => {
 
   const handleRefreshPermission = async (): Promise<void> => {
     try {
-      await window.electronAPI.startCapture({
-        topLeft: { x: 0, y: 0 },
-        bottomRight: { x: 1, y: 1 },
-        totalPages: 1,
-        fileName: 'test',
-        captureSpeed: 1000,
-        savePath: undefined,
-        language: i18n.language
-      });
+      const hasPermission = await window.electronAPI.checkPermissions(i18n.language);
       
-      alert('권한이 확인되었습니다!');
-      setProgress({ current: 0, total: 0, status: 'idle' });
-    } catch (error) {
-      const errorMsg = error instanceof Error ? error.message : String(error);
-      if (errorMsg.includes('Screen recording permission') || 
-          errorMsg.includes('화면 녹화 권한') || 
-          errorMsg.includes('画面録画') ||
-          errorMsg.includes('屏幕录制') ||
-          errorMsg.includes('Failed to get sources')) {
-        alert(t('message.permissionRequired'));
+      if (hasPermission) {
+        alert('권한이 확인되었습니다!');
+        setProgress({ current: 0, total: 0, status: 'idle' });
       }
+    } catch (error) {
+      console.error('Permission check failed:', error);
     }
   };
 
@@ -148,15 +120,8 @@ export const App: React.FC = () => {
     i18n.changeLanguage(lang);
     setShowLangMenu(false);
     
-    if (progress.status === 'error' && progress.command) {
-      window.electronAPI.startCapture({
-        topLeft: { x: 0, y: 0 },
-        bottomRight: { x: 1, y: 1 },
-        totalPages: 1,
-        fileName: 'test',
-        captureSpeed: 1000,
-        language: lang
-      }).catch(() => {});
+    if (progress.status === 'error' && progress.commands) {
+      window.electronAPI.checkPermissions(lang).catch(() => {});
     }
   };
 
@@ -177,26 +142,39 @@ export const App: React.FC = () => {
     const elements: React.ReactElement[] = [];
     
     lines.forEach((line, index) => {
-      if (line.includes('2.') && progress.command) {
+      // 2번 줄이면 무조건 두 버튼 다 표시
+      if (line.includes('2.') && progress.commands) {
         elements.push(
           <React.Fragment key={`line-${index}`}>
             {line}
             <br />
             <div className="command-container" style={{ marginTop: '5px', marginBottom: '5px' }}>
-              <code className="command-text">{progress.command}</code>
+              <code className="command-text">{progress.commands.screenRecording}</code>
               <button 
                 className="copy-command-button"
                 onClick={() => {
-                  navigator.clipboard.writeText(progress.command!);
+                  navigator.clipboard.writeText(progress.commands!.screenRecording);
                   alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
                 }}
               >
-                {t('permission.copyCommand') || 'Copy Command'}
+                화면 녹화 설정 열기
+              </button>
+            </div>
+            <div className="command-container" style={{ marginTop: '5px', marginBottom: '5px' }}>
+              <code className="command-text">{progress.commands.accessibility}</code>
+              <button 
+                className="copy-command-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(progress.commands!.accessibility);
+                  alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
+                }}
+              >
+                접근성 설정 열기
               </button>
             </div>
           </React.Fragment>
         );
-      } else if (line.includes('4.') && progress.command) {
+      } else if (line.includes('4.') && progress.commands) {
         elements.push(
           <React.Fragment key={`line-${index}`}>
             {line}
@@ -216,8 +194,8 @@ export const App: React.FC = () => {
       }
     });
     
-    // 맨 마지막에 권한 새로고침 버튼 추가 (엔터 한 개만)
-    if (progress.command) {
+    // 맨 마지막에 권한 새로고침 버튼 추가
+    if (progress.commands) {
       elements.push(
         <React.Fragment key="refresh-permission">
           <button

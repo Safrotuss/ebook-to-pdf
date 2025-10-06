@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const mode = isProduction ? 'production' : 'development';
@@ -26,6 +27,16 @@ module.exports = [
       path: path.resolve(__dirname, 'dist'),
       filename: 'main.js'
     },
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'node_modules/pdfkit/js/data',
+            to: 'data'
+          }
+        ]
+      })
+    ],
     resolve: {
       extensions: ['.ts', '.js']
     },

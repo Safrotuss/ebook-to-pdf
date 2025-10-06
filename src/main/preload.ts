@@ -8,6 +8,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   selectSavePath: (): Promise<string | null> => ipcRenderer.invoke('select-save-path'),
   
+  checkPermissions: (language: string): Promise<boolean> => ipcRenderer.invoke('check-permissions', language),
+  
   startCapture: (settings: CaptureSettings): Promise<void> => 
     ipcRenderer.invoke('start-capture', settings),
   

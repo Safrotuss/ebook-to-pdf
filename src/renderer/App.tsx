@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Point, CaptureProgress, DEFAULT_CAPTURE_SPEED } from '../types';
 
+type CoordinateMode = 'none' | 'topLeft' | 'bottomRight';
+
 export const App: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [topLeft, setTopLeft] = useState<Point>({ x: 0, y: 0 });
@@ -14,6 +16,8 @@ export const App: React.FC = () => {
     total: 0,
     status: 'idle'
   });
+  const [coordinateMode, setCoordinateMode] = useState<CoordinateMode>('none');
+  const [showLangMenu, setShowLangMenu] = useState<boolean>(false);
 
   useEffect(() => {
     window.electronAPI.onCaptureProgress((progressData) => {
@@ -21,14 +25,38 @@ export const App: React.FC = () => {
     });
   }, []);
 
-  const handleTopLeftClick = async (): Promise<void> => {
-    const position = await window.electronAPI.getCursorPosition();
-    setTopLeft(position);
+  useEffect(() => {
+    if (coordinateMode !== 'none') {
+      document.body.style.cursor = 'crosshair';
+      
+      const handleGlobalClick = async () => {
+        const position = await window.electronAPI.getCursorPosition();
+        
+        if (coordinateMode === 'topLeft') {
+          setTopLeft(position);
+        } else if (coordinateMode === 'bottomRight') {
+          setBottomRight(position);
+        }
+        
+        setCoordinateMode('none');
+        document.body.style.cursor = 'default';
+      };
+
+      window.addEventListener('click', handleGlobalClick);
+      
+      return () => {
+        window.removeEventListener('click', handleGlobalClick);
+        document.body.style.cursor = 'default';
+      };
+    }
+  }, [coordinateMode]);
+
+  const handleTopLeftClick = (): void => {
+    setCoordinateMode('topLeft');
   };
 
-  const handleBottomRightClick = async (): Promise<void> => {
-    const position = await window.electronAPI.getCursorPosition();
-    setBottomRight(position);
+  const handleBottomRightClick = (): void => {
+    setCoordinateMode('bottomRight');
   };
 
   const handleStartCapture = async (): Promise<void> => {
@@ -80,12 +108,23 @@ export const App: React.FC = () => {
     setFileName('');
     setCaptureSpeed(String(DEFAULT_CAPTURE_SPEED));
     setProgress({ current: 0, total: 0, status: 'idle' });
+    setCoordinateMode('none');
     await window.electronAPI.reset();
   };
 
-  const toggleLanguage = (): void => {
-    const newLang = i18n.language === 'ko' ? 'en' : 'ko';
-    i18n.changeLanguage(newLang);
+  const changeLanguage = (lang: string): void => {
+    i18n.changeLanguage(lang);
+    setShowLangMenu(false);
+  };
+
+  const getLanguageLabel = (): string => {
+    const labels: Record<string, string> = {
+      en: 'EN',
+      ko: 'KO',
+      ja: 'JA',
+      zh: 'ZH'
+    };
+    return labels[i18n.language] || 'EN';
   };
 
   const isCapturing = progress.status === 'capturing' || progress.status === 'converting';
@@ -94,16 +133,39 @@ export const App: React.FC = () => {
     <div className="container">
       <div className="header">
         <h1 className="title">{t('app.title')}</h1>
-        <button className="lang-button" onClick={toggleLanguage}>
-          {i18n.language === 'ko' ? 'EN' : 'KO'}
-        </button>
+        <div className="lang-selector">
+          <button 
+            className="lang-button" 
+            onClick={() => setShowLangMenu(!showLangMenu)}
+          >
+            {getLanguageLabel()} ▼
+          </button>
+          {showLangMenu && (
+            <div className="lang-menu">
+              <button onClick={() => changeLanguage('en')}>English</button>
+              <button onClick={() => changeLanguage('ko')}>한국어</button>
+              <button onClick={() => changeLanguage('ja')}>日本語</button>
+              <button onClick={() => changeLanguage('zh')}>中文</button>
+            </div>
+          )}
+        </div>
       </div>
+
+      {coordinateMode !== 'none' && (
+        <div className="coordinate-notice">
+          {t('message.coordinateSetMode')}
+        </div>
+      )}
 
       <div className="section">
         <div className="row">
           <label>{t('form.topLeft')}</label>
           <span className="coordinate">({topLeft.x}, {topLeft.y})</span>
-          <button onClick={handleTopLeftClick} disabled={isCapturing}>
+          <button 
+            onClick={handleTopLeftClick} 
+            disabled={isCapturing || coordinateMode !== 'none'}
+            className={coordinateMode === 'topLeft' ? 'active' : ''}
+          >
             {t('form.clickCoordinate')}
           </button>
         </div>
@@ -111,7 +173,11 @@ export const App: React.FC = () => {
         <div className="row">
           <label>{t('form.bottomRight')}</label>
           <span className="coordinate">({bottomRight.x}, {bottomRight.y})</span>
-          <button onClick={handleBottomRightClick} disabled={isCapturing}>
+          <button 
+            onClick={handleBottomRightClick} 
+            disabled={isCapturing || coordinateMode !== 'none'}
+            className={coordinateMode === 'bottomRight' ? 'active' : ''}
+          >
             {t('form.clickCoordinate')}
           </button>
         </div>

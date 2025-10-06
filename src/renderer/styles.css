@@ -21,32 +21,96 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .title {
   flex: 1;
   text-align: center;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   color: #333;
 }
 
+.lang-selector {
+  position: relative;
+}
+
 .lang-button {
-  padding: 6px 12px;
+  padding: 8px 16px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #fff;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
   transition: all 0.2s;
+  min-width: 70px;
 }
 
 .lang-button:hover {
   background-color: #000;
   color: #fff;
   border-color: #000;
+}
+
+.lang-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.lang-menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.lang-menu button:hover {
+  background-color: #f0f0f0;
+}
+
+.lang-menu button:first-child {
+  border-radius: 4px 4px 0 0;
+}
+
+.lang-menu button:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+.coordinate-notice {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 .section {
@@ -93,6 +157,13 @@ button:hover:not(:disabled) {
 button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+button.active {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000;
+  font-weight: bold;
 }
 
 input {
@@ -149,21 +220,22 @@ input:disabled {
 
 .reset-button {
   flex: 1;
-  padding: 12px;
-  background-color: #000000;
+  padding: 14px;
+  background-color: #6c757d;
   color: white;
   border: none;
   font-weight: bold;
+  font-size: 15px;
 }
 
 .reset-button:hover:not(:disabled) {
-  background-color: #333;
+  background-color: #5a6268;
 }
 
 .main-button {
   flex: 2;
-  padding: 12px;
-  background-color: #CB3D39;
+  padding: 14px;
+  background-color: #000000;
   color: white;
   border: none;
   font-size: 16px;

@@ -1,0 +1,45 @@
+{
+  "app": {
+    "title": "电子书PDF转换器",
+    "madeBy": "Made By EastShine"
+  },
+  "form": {
+    "topLeft": "左上角坐标",
+    "bottomRight": "右下角坐标",
+    "totalPages": "总页数",
+    "pdfName": "PDF文件名",
+    "captureSpeed": "捕获速度 (ms)",
+    "clickCoordinate": "选择坐标",
+    "totalPagesPlaceholder": "请输入总页数。",
+    "pdfNamePlaceholder": "请输入PDF文件名。",
+    "captureSpeedPlaceholder": "捕获间隔（毫秒）",
+    "createPDF": "创建PDF",
+    "reset": "重置"
+  },
+  "status": {
+    "ready": "准备就绪",
+    "capturing": "捕获中...",
+    "converting": "转换为PDF中...",
+    "completed": "PDF转换完成！",
+    "error": "发生错误"
+  },
+  "message": {
+    "clickTopLeft": "请点击图像的左上角。",
+    "clickBottomRight": "请点击图像的右下角。",
+    "fillAllFields": "请填写所有字段。",
+    "coordinatesNotSet": "请设置坐标。",
+    "capturingPage": "正在捕获第 {{current}}/{{total}} 页...",
+    "convertingToPDF": "正在转换为PDF...",
+    "conversionComplete": "PDF转换完成！",
+    "errorOccurred": "发生错误: {{error}}",
+    "clickToSetCoordinate": "下次点击的位置将被设置为坐标",
+    "coordinateSetMode": "坐标设置模式 - 请点击目标位置"
+  },
+  "permission": {
+    "screenRecordingTitle": "需要屏幕录制权限",
+    "screenRecordingMessage": "此应用需要屏幕录制权限才能捕获屏幕。",
+    "accessibilityTitle": "需要辅助功能权限",
+    "accessibilityMessage": "此应用需要辅助功能权限以进行键盘输入。",
+    "openSettings": "打开系统偏好设置"
+  }
+}

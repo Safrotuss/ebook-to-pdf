@@ -26,6 +26,7 @@ npm install
 ## 개발 모드 실행
 ```bash
 npm run dev
+npx electron .
 ```
 
 터미널

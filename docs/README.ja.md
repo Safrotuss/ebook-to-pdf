@@ -26,6 +26,7 @@ npm install
 ## 開発モード実行
 ```bash
 npm run dev
+npx electron .
 ```
 
 別のターミナルで

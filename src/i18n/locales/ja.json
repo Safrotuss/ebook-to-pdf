@@ -1,0 +1,45 @@
+{
+  "app": {
+    "title": "E-Book PDF変換ツール",
+    "madeBy": "Made By EastShine"
+  },
+  "form": {
+    "topLeft": "左上座標",
+    "bottomRight": "右下座標",
+    "totalPages": "総ページ数",
+    "pdfName": "PDFファイル名",
+    "captureSpeed": "キャプチャ速度 (ms)",
+    "clickCoordinate": "座標を選択",
+    "totalPagesPlaceholder": "総ページ数を入力してください。",
+    "pdfNamePlaceholder": "PDFファイル名を入力してください。",
+    "captureSpeedPlaceholder": "キャプチャ間隔（ミリ秒）",
+    "createPDF": "PDF作成",
+    "reset": "リセット"
+  },
+  "status": {
+    "ready": "準備完了",
+    "capturing": "キャプチャ中...",
+    "converting": "PDF変換中...",
+    "completed": "PDF変換完了！",
+    "error": "エラーが発生しました"
+  },
+  "message": {
+    "clickTopLeft": "画像の左上をクリックしてください。",
+    "clickBottomRight": "画像の右下をクリックしてください。",
+    "fillAllFields": "すべてのフィールドを入力してください。",
+    "coordinatesNotSet": "座標を設定してください。",
+    "capturingPage": "ページ {{current}}/{{total}} をキャプチャ中...",
+    "convertingToPDF": "PDFに変換中...",
+    "conversionComplete": "PDF変換が完了しました！",
+    "errorOccurred": "エラーが発生しました: {{error}}",
+    "clickToSetCoordinate": "次にクリックした位置が座標として設定されます",
+    "coordinateSetMode": "座標設定モード - 目的の位置をクリックしてください"
+  },
+  "permission": {
+    "screenRecordingTitle": "画面録画の許可が必要です",
+    "screenRecordingMessage": "このアプリは画面をキャプチャするために画面録画の許可が必要です。",
+    "accessibilityTitle": "アクセシビリティ許可が必要です",
+    "accessibilityMessage": "このアプリはキーボード入力のためにアクセシビリティ許可が必要です。",
+    "openSettings": "システム環境設定を開く"
+  }
+}

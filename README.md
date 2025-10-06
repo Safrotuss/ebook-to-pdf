@@ -26,6 +26,7 @@ npm install
 ## Development
 ```bash
 npm run dev
+npx electron .
 ```
 
 In a separate terminal.

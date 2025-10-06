@@ -26,6 +26,7 @@ npm install
 ## 开发模式运行
 ```bash
 npm run dev
+npx electron .
 ```
 
 在另一个终端中.

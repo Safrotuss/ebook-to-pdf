@@ -10,9 +10,9 @@ let pdfService: PDFService | null = null;
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 500,
-    height: 400,
-    resizable: false,
+    width: 700,
+    height: 550,
+    resizable: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

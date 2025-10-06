@@ -31,7 +31,9 @@
     "capturingPage": "페이지 {{current}}/{{total}} 캡처 중...",
     "convertingToPDF": "PDF로 변환 중...",
     "conversionComplete": "PDF 변환이 완료되었습니다!",
-    "errorOccurred": "오류가 발생했습니다: {{error}}"
+    "errorOccurred": "오류가 발생했습니다: {{error}}",
+    "clickToSetCoordinate": "다음 클릭 위치가 좌표로 설정됩니다",
+    "coordinateSetMode": "좌표 설정 모드 - 목표 위치를 클릭하세요"
   },
   "permission": {
     "screenRecordingTitle": "화면 녹화 권한 필요",

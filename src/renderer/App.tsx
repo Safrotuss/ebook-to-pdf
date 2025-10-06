@@ -233,6 +233,17 @@ export const App: React.FC = () => {
       {progress.status !== 'idle' && (
         <div className="status">
           <div className="status-message" style={{ whiteSpace: 'pre-line' }}>{progress.message}</div>
+          {progress.command && (
+            <button 
+              className="copy-command-button"
+              onClick={() => {
+                navigator.clipboard.writeText(progress.command!);
+                alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
+              }}
+            >
+              {t('permission.copyCommand') || 'Copy Command'}
+            </button>
+          )}
           {progress.total > 0 && progress.status !== 'error' && (
             <div className="progress-bar">
               <div

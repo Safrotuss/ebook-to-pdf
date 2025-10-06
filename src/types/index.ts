@@ -25,6 +25,7 @@ export interface CaptureProgress {
   total: number;
   status: 'idle' | 'capturing' | 'converting' | 'completed' | 'error';
   message?: string;
+  command?: string; // 복사 가능한 터미널 명령어
 }
 
 export const DEFAULT_CAPTURE_SPEED = 1000;

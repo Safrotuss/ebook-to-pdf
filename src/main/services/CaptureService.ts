@@ -37,14 +37,10 @@ export class CaptureService {
   private async captureScreen(region: CaptureRegion): Promise<Buffer> {
     try {
       const display = screen.getPrimaryDisplay();
-      const scaleFactor = display.scaleFactor || 2;
       
       const sources = await desktopCapturer.getSources({
         types: ['screen'],
-        thumbnailSize: {
-          width: Math.floor(display.workAreaSize.width * scaleFactor),
-          height: Math.floor(display.workAreaSize.height * scaleFactor)
-        }
+        thumbnailSize: display.workAreaSize
       });
 
       if (sources.length === 0) {
@@ -58,16 +54,11 @@ export class CaptureService {
       const actualWidth = metadata.width || 0;
       const actualHeight = metadata.height || 0;
       
-      const scaledX = Math.floor(region.x * scaleFactor);
-      const scaledY = Math.floor(region.y * scaleFactor);
-      const scaledWidth = Math.floor(region.width * scaleFactor);
-      const scaledHeight = Math.floor(region.height * scaleFactor);
-      
       // 영역이 이미지를 벗어나지 않도록 보정
-      const safeX = Math.max(0, Math.min(scaledX, actualWidth - 1));
-      const safeY = Math.max(0, Math.min(scaledY, actualHeight - 1));
-      const safeWidth = Math.min(scaledWidth, actualWidth - safeX);
-      const safeHeight = Math.min(scaledHeight, actualHeight - safeY);
+      const safeX = Math.max(0, Math.min(Math.floor(region.x), actualWidth - 1));
+      const safeY = Math.max(0, Math.min(Math.floor(region.y), actualHeight - 1));
+      const safeWidth = Math.min(Math.floor(region.width), actualWidth - safeX);
+      const safeHeight = Math.min(Math.floor(region.height), actualHeight - safeY);
       
       const croppedImage = await sharp(fullImage)
         .extract({
@@ -79,10 +70,10 @@ export class CaptureService {
         .png({ quality: 100, compressionLevel: 0 })
         .toBuffer();
 
-      // 찰칵 소리 (macOS 기본 카메라 셔터음)
+      // 찰칵 소리 (macOS 기본 소리)
       if (process.platform === 'darwin') {
         try {
-          exec('afplay /System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/system/camera_shutter_burst.caf');
+          exec('afplay /System/Library/Sounds/Tink.aiff');
         } catch (e) {
           // 소리 재생 실패해도 무시
         }

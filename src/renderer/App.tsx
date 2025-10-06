@@ -25,38 +25,28 @@ export const App: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (coordinateMode !== 'none') {
-      document.body.style.cursor = 'crosshair';
-      
-      const handleGlobalClick = async () => {
-        const position = await window.electronAPI.getCursorPosition();
-        
-        if (coordinateMode === 'topLeft') {
-          setTopLeft(position);
-        } else if (coordinateMode === 'bottomRight') {
-          setBottomRight(position);
-        }
-        
-        setCoordinateMode('none');
-        document.body.style.cursor = 'default';
-      };
-
-      window.addEventListener('click', handleGlobalClick);
-      
-      return () => {
-        window.removeEventListener('click', handleGlobalClick);
-        document.body.style.cursor = 'default';
-      };
-    }
-  }, [coordinateMode]);
-
-  const handleTopLeftClick = (): void => {
+  const handleTopLeftClick = async (): Promise<void> => {
     setCoordinateMode('topLeft');
+    // 창을 최소화하고 1초 후 좌표 가져오기
+    await window.electronAPI.minimizeWindow();
+    setTimeout(async () => {
+      const position = await window.electronAPI.getCursorPosition();
+      setTopLeft(position);
+      setCoordinateMode('none');
+      await window.electronAPI.restoreWindow();
+    }, 1000);
   };
 
-  const handleBottomRightClick = (): void => {
+  const handleBottomRightClick = async (): Promise<void> => {
     setCoordinateMode('bottomRight');
+    // 창을 최소화하고 1초 후 좌표 가져오기
+    await window.electronAPI.minimizeWindow();
+    setTimeout(async () => {
+      const position = await window.electronAPI.getCursorPosition();
+      setBottomRight(position);
+      setCoordinateMode('none');
+      await window.electronAPI.restoreWindow();
+    }, 1000);
   };
 
   const handleStartCapture = async (): Promise<void> => {
@@ -151,12 +141,6 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      {coordinateMode !== 'none' && (
-        <div className="coordinate-notice">
-          {t('message.coordinateSetMode')}
-        </div>
-      )}
-
       <div className="section">
         <div className="row">
           <label>{t('form.topLeft')}</label>
@@ -166,7 +150,7 @@ export const App: React.FC = () => {
             disabled={isCapturing || coordinateMode !== 'none'}
             className={coordinateMode === 'topLeft' ? 'active' : ''}
           >
-            {t('form.clickCoordinate')}
+            {coordinateMode === 'topLeft' ? '⏳' : t('form.clickCoordinate')}
           </button>
         </div>
 
@@ -178,7 +162,7 @@ export const App: React.FC = () => {
             disabled={isCapturing || coordinateMode !== 'none'}
             className={coordinateMode === 'bottomRight' ? 'active' : ''}
           >
-            {t('form.clickCoordinate')}
+            {coordinateMode === 'bottomRight' ? '⏳' : t('form.clickCoordinate')}
           </button>
         </div>
 

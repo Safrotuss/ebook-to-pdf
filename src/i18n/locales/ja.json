@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "E-Book PDF変換ツール",
-    "madeBy": "Made By EastShine"
+    "title": "E-Book To PDF",
+    "madeBy": "Made By efforthye"
   },
   "form": {
     "topLeft": "左上座標",

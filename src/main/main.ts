@@ -52,6 +52,15 @@ ipcMain.handle('get-cursor-position', async (): Promise<Point> => {
   return { x: point.x, y: point.y };
 });
 
+ipcMain.handle('minimize-window', async (): Promise<void> => {
+  mainWindow?.minimize();
+});
+
+ipcMain.handle('restore-window', async (): Promise<void> => {
+  mainWindow?.restore();
+  mainWindow?.focus();
+});
+
 ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<void> => {
   if (!captureService || !pdfService) {
     throw new Error('Services not initialized');

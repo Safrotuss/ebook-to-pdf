@@ -28,3 +28,16 @@ export interface CaptureProgress {
 export const DEFAULT_CAPTURE_SPEED = 1000;
 export const MIN_CAPTURE_SPEED = 500;
 export const MAX_CAPTURE_SPEED = 5000;
+
+declare global {
+  interface Window {
+    electronAPI: {
+      getCursorPosition: () => Promise<Point>;
+      minimizeWindow: () => Promise<void>;
+      restoreWindow: () => Promise<void>;
+      startCapture: (settings: CaptureSettings) => Promise<void>;
+      onCaptureProgress: (callback: (progress: CaptureProgress) => void) => void;
+      reset: () => Promise<void>;
+    };
+  }
+}

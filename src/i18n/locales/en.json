@@ -46,6 +46,7 @@
     "screenRecordingMessage": "This app requires screen recording permission to capture the screen.",
     "accessibilityTitle": "Accessibility Permission Required",
     "accessibilityMessage": "This app requires accessibility permission for keyboard input.",
-    "openSettings": "Open System Preferences"
+    "openSettings": "Open System Preferences",
+    "permissionGuide": "Screen recording permission required.\n\nPlease follow these steps.\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Screen Recording\n3. Click the lock icon to make changes\n4. Click + button and add this app:\n   /Applications/Electron.app\n   OR drag from node_modules/electron/dist/Electron.app\n5. Enable the checkbox\n6. Restart this app\n\nQuick access - run in Terminal:open \"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture\""
   }
 }

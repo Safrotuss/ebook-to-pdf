@@ -41,6 +41,25 @@ export const App: React.FC = () => {
   };
 
   const handleStartCapture = async (): Promise<void> => {
+    // 권한 체크를 가장 먼저
+    try {
+      await window.electronAPI.startCapture({
+        topLeft: { x: 0, y: 0 },
+        bottomRight: { x: 1, y: 1 },
+        totalPages: 1,
+        fileName: 'test',
+        captureSpeed: 1000,
+        language: i18n.language
+      });
+    } catch (error) {
+      // 권한 에러면 여기서 표시하고 리턴
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      if (errorMsg.includes('Screen recording permission') || errorMsg.includes('Failed to get sources')) {
+        return;
+      }
+    }
+
+    // 권한이 있으면 입력값 검증
     if (!totalPages || !fileName) {
       alert(t('message.fillAllFields'));
       return;
@@ -75,7 +94,8 @@ export const App: React.FC = () => {
         totalPages: pages,
         fileName,
         captureSpeed: speed,
-        savePath: savePath || undefined
+        savePath: savePath || undefined,
+        language: i18n.language
       });
     } catch (error) {
       console.error('Capture error:', error);
@@ -212,8 +232,8 @@ export const App: React.FC = () => {
 
       {progress.status !== 'idle' && (
         <div className="status">
-          <div className="status-message">{progress.message}</div>
-          {progress.total > 0 && (
+          <div className="status-message" style={{ whiteSpace: 'pre-line' }}>{progress.message}</div>
+          {progress.total > 0 && progress.status !== 'error' && (
             <div className="progress-bar">
               <div
                 className="progress-fill"

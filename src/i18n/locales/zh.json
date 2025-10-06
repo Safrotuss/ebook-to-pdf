@@ -43,6 +43,7 @@
     "screenRecordingMessage": "此应用需要屏幕录制权限才能捕获屏幕。",
     "accessibilityTitle": "需要辅助功能权限",
     "accessibilityMessage": "此应用需要辅助功能权限以进行键盘输入。",
-    "openSettings": "打开系统偏好设置"
+    "openSettings": "打开系统偏好设置",
+    "permissionGuide": "需要屏幕录制权限。\n\n请按照以下步骤操作:\n\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序:\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 在终端中运行:\nopen \"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture\""
   }
 }

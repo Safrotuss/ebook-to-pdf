@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, dialog, desktopCapturer } from 'electron';
 import * as path from 'path';
 import { CaptureService } from './services/CaptureService';
 import { PDFService } from './services/PDFService';
@@ -9,6 +9,13 @@ let overlayWindow: BrowserWindow | null = null;
 let captureService: CaptureService | null = null;
 let pdfService: PDFService | null = null;
 let pendingCoordinateResolve: ((point: Point) => void) | null = null;
+
+const permissionGuides: Record<string, string> = {
+  en: 'Screen recording permission required.\n\nPlease follow these steps.\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Screen Recording\n3. Click the lock icon to make changes\n4. Click + button and add this app:\n   /Applications/Electron.app\n   OR drag from node_modules/electron/dist/Electron.app\n5. Enable the checkbox\n6. Restart this app\n\nQuick access - run in Terminal:open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"',
+  ko: '화면 녹화 권한이 필요합니다.\n\n다음 단계를 따라주세요.\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 화면 녹화로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다:\n   /Applications/Electron.app\n   또는 node_modules/electron/dist/Electron.app에서 드래그\n5. 체크박스를 활성화합니다\n6. 이 앱을 재시작합니다\n\n빠른 접근 - 터미널에서 실행:open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"',
+  ja: '画面録画の許可が必要です。\n\n次の手順に従ってください.\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加:\n   /Applications/Electron.app\n   またはnode_modules/electron/dist/Electron.appからドラッグ\n5. チェックボックスを有効にする\n6. このアプリを再起動\n\nクイックアクセス - ターミナルで実行:open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"',
+  zh: '需要屏幕录制权限。\n\n请按照以下步骤操作.\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序:\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 在终端中运行:open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"'
+};
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -168,7 +175,6 @@ ipcMain.handle('get-cursor-position', async (_, language: string): Promise<Point
     
     createOverlayWindow();
     
-    // 언어별 번역
     const translations: Record<string, { title: string; cancel: string }> = {
       en: { title: 'Click anywhere to select coordinate', cancel: 'Press ESC to cancel' },
       ko: { title: '좌표를 선택하려면 아무 곳이나 클릭하세요', cancel: 'ESC 키를 눌러 취소' },
@@ -241,6 +247,37 @@ ipcMain.handle('select-save-path', async (): Promise<string | null> => {
 ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<void> => {
   if (!captureService || !pdfService) {
     throw new Error('Services not initialized');
+  }
+
+  try {
+    const testSources = await desktopCapturer.getSources({
+      types: ['screen'],
+      thumbnailSize: { width: 1, height: 1 }
+    });
+    
+    if (testSources.length === 0) {
+      const lang = settings.language || 'en';
+      const errorMsg = permissionGuides[lang] || permissionGuides.en;
+      
+      mainWindow?.webContents.send('capture-progress', {
+        current: 0,
+        total: settings.totalPages,
+        status: 'error',
+        message: errorMsg
+      });
+      throw new Error(errorMsg);
+    }
+  } catch (error) {
+    const lang = settings.language || 'en';
+    const errorMsg = permissionGuides[lang] || permissionGuides.en;
+    
+    mainWindow?.webContents.send('capture-progress', {
+      current: 0,
+      total: settings.totalPages,
+      status: 'error',
+      message: errorMsg
+    });
+    throw new Error(errorMsg);
   }
 
   try {

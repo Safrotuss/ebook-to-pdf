@@ -43,6 +43,7 @@
     "screenRecordingMessage": "このアプリは画面をキャプチャするために画面録画の許可が必要です。",
     "accessibilityTitle": "アクセシビリティ許可が必要です",
     "accessibilityMessage": "このアプリはキーボード入力のためにアクセシビリティ許可が必要です。",
-    "openSettings": "システム環境設定を開く"
+    "openSettings": "システム環境設定を開く",
+    "permissionGuide": "画面録画の許可が必要です。\n\n次の手順に従ってください:\n\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加:\n   /Applications/Electron.app\n   またはnode_modules/electron/dist/Electron.appからドラッグ\n5. チェックボックスを有効にする\n6. このアプリを再起動\n\nクイックアクセス - ターミナルで実行:\nopen \"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture\""
   }
 }

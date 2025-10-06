@@ -17,6 +17,7 @@ export interface CaptureSettings {
   fileName: string;
   captureSpeed: number;
   savePath?: string;
+  language?: string;
 }
 
 export interface CaptureProgress {

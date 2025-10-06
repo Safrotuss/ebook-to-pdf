@@ -31,7 +31,7 @@ export interface CaptureProgress {
   };
 }
 
-export const DEFAULT_CAPTURE_SPEED = 1000;
+export const DEFAULT_CAPTURE_SPEED = 100;
 export const MIN_CAPTURE_SPEED = 500;
 export const MAX_CAPTURE_SPEED = 5000;
 

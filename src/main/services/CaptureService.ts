@@ -36,9 +36,15 @@ export class CaptureService {
 
   private async captureScreen(region: CaptureRegion): Promise<Buffer> {
     try {
+      const display = screen.getPrimaryDisplay();
+      const scaleFactor = display.scaleFactor || 2;
+      
       const sources = await desktopCapturer.getSources({
         types: ['screen'],
-        thumbnailSize: screen.getPrimaryDisplay().workAreaSize
+        thumbnailSize: {
+          width: Math.floor(display.workAreaSize.width * scaleFactor),
+          height: Math.floor(display.workAreaSize.height * scaleFactor)
+        }
       });
 
       if (sources.length === 0) {
@@ -49,12 +55,12 @@ export class CaptureService {
       
       const croppedImage = await sharp(fullImage)
         .extract({
-          left: Math.floor(region.x),
-          top: Math.floor(region.y),
-          width: Math.floor(region.width),
-          height: Math.floor(region.height)
+          left: Math.floor(region.x * scaleFactor),
+          top: Math.floor(region.y * scaleFactor),
+          width: Math.floor(region.width * scaleFactor),
+          height: Math.floor(region.height * scaleFactor)
         })
-        .png()
+        .png({ quality: 100, compressionLevel: 0 })
         .toBuffer();
 
       return croppedImage;

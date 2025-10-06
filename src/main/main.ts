@@ -309,13 +309,26 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     throw new Error('Services not initialized');
   }
 
-  // 캡처 시작 전에 앱을 뒤로 보내기 (숨기지 않음)
+  // 캡처 시작 전에 앱을 뒤로 보내고 사용자가 앱을 선택할 때까지 대기
   if (mainWindow && !mainWindow.isDestroyed()) {
-    // macOS에서 다른 앱 활성화 (내 앱은 그대로 뒤에 유지)
+    mainWindow.webContents.send('capture-progress', {
+      current: 0,
+      total: settings.totalPages,
+      status: 'capturing',
+      message: 'Click on the app/browser window you want to capture...'
+    });
+
+    // 앱을 뒤로 보내기
+    mainWindow.blur();
+    
+    // macOS에서 다른 앱 활성화
     if (process.platform === 'darwin') {
       const { exec } = require('child_process');
       exec('osascript -e \'tell application "System Events" to set frontmost of first process whose frontmost is false to true\'');
     }
+
+    // 3초 대기 (사용자가 앱 클릭할 시간)
+    await new Promise(resolve => setTimeout(resolve, 3000));
   }
 
   try {

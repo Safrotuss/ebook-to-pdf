@@ -6,9 +6,9 @@ yarn.lock
 # Build outputs
 dist/
 release/
-*.exe
-*.dmg
-*.app
+# *.exe
+# *.dmg
+# *.app
 
 # Temporary files
 temp_images/

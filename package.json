@@ -22,6 +22,9 @@
       "node_modules/**/*",
       "package.json"
     ],
+    "asarUnpack": [
+      "node_modules/sharp/**/*"
+    ],
     "mac": {
       "target": "dmg",
       "icon": "build/icon.icns"

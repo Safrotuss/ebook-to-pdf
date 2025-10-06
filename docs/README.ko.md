@@ -95,10 +95,13 @@ npm run package:win
 이에 대한 모든 책임은 사용자에게 있습니다.
 
 ## 라이선스
-Apache License 2.0
+Apache 2.0
 
-## 제작자
-Created by efforthye
+Copyright 2025 efforthye
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
 ## 기여하기
 기여는 언제나 환영합니다! Pull Request를 자유롭게 제출해주세요.

@@ -37,10 +37,15 @@ export class CaptureService {
   private async captureScreen(region: CaptureRegion): Promise<Buffer> {
     try {
       const display = screen.getPrimaryDisplay();
+      const scaleFactor = display.scaleFactor;
       
+      // Retina 디스플레이를 고려한 실제 크기로 캡처
       const sources = await desktopCapturer.getSources({
         types: ['screen'],
-        thumbnailSize: display.workAreaSize
+        thumbnailSize: {
+          width: Math.floor(display.bounds.width * scaleFactor),
+          height: Math.floor(display.bounds.height * scaleFactor)
+        }
       });
 
       if (sources.length === 0) {
@@ -50,15 +55,31 @@ export class CaptureService {
       const fullImage = sources[0].thumbnail.toPNG();
       const metadata = await sharp(fullImage).metadata();
       
-      // 실제 이미지 크기와 요청 영역 확인
+      // 디버깅 로그
+      console.log('Display bounds:', display.bounds);
+      console.log('Display scaleFactor:', scaleFactor);
+      console.log('Captured image size:', metadata.width, 'x', metadata.height);
+      console.log('Requested region:', region);
+      
+      // 실제 이미지 크기
       const actualWidth = metadata.width || 0;
       const actualHeight = metadata.height || 0;
       
+      // Retina 디스플레이의 경우 scaleFactor 적용
+      const scaledX = Math.floor(region.x * scaleFactor);
+      const scaledY = Math.floor(region.y * scaleFactor);
+      const scaledWidth = Math.floor(region.width * scaleFactor);
+      const scaledHeight = Math.floor(region.height * scaleFactor);
+      
+      console.log('Scaled region:', { x: scaledX, y: scaledY, width: scaledWidth, height: scaledHeight });
+      
       // 영역이 이미지를 벗어나지 않도록 보정
-      const safeX = Math.max(0, Math.min(Math.floor(region.x), actualWidth - 1));
-      const safeY = Math.max(0, Math.min(Math.floor(region.y), actualHeight - 1));
-      const safeWidth = Math.min(Math.floor(region.width), actualWidth - safeX);
-      const safeHeight = Math.min(Math.floor(region.height), actualHeight - safeY);
+      const safeX = Math.max(0, Math.min(scaledX, actualWidth - 1));
+      const safeY = Math.max(0, Math.min(scaledY, actualHeight - 1));
+      const safeWidth = Math.min(scaledWidth, actualWidth - safeX);
+      const safeHeight = Math.min(scaledHeight, actualHeight - safeY);
+      
+      console.log('Safe region:', { x: safeX, y: safeY, width: safeWidth, height: safeHeight });
       
       const croppedImage = await sharp(fullImage)
         .extract({

@@ -309,6 +309,11 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     throw new Error('Services not initialized');
   }
 
+  // 캡처 시작 전에 앱 숨기기
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.hide();
+  }
+
   try {
     const testSources = await desktopCapturer.getSources({
       types: ['screen'],
@@ -321,6 +326,9 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
       const errorMsg = platform === 'darwin' 
         ? (permissionGuidesMac[lang] || permissionGuidesMac.en)
         : (permissionGuidesWindows[lang] || permissionGuidesWindows.en);
+      
+      // 에러 발생 시 앱 다시 보이기
+      mainWindow?.show();
       
       mainWindow?.webContents.send('capture-progress', {
         current: 0,
@@ -337,6 +345,9 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     const errorMsg = platform === 'darwin' 
       ? (permissionGuidesMac[lang] || permissionGuidesMac.en)
       : (permissionGuidesWindows[lang] || permissionGuidesWindows.en);
+    
+    // 에러 발생 시 앱 다시 보이기
+    mainWindow?.show();
     
     mainWindow?.webContents.send('capture-progress', {
       current: 0,
@@ -364,6 +375,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
 
     await captureService.cleanup();
 
+    // 완료 후 앱 다시 보이기
+    mainWindow?.show();
+    mainWindow?.focus();
+
     mainWindow?.webContents.send('capture-progress', {
       current: settings.totalPages,
       total: settings.totalPages,
@@ -372,6 +387,9 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    
+    // 에러 발생 시 앱 다시 보이기
+    mainWindow?.show();
     
     if (errorMessage.includes('Failed to send keyboard input')) {
       const lang = settings.language || 'en';

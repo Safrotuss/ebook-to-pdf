@@ -309,9 +309,13 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     throw new Error('Services not initialized');
   }
 
-  // 캡처 시작 전에 앱 숨기기
+  // 캡처 시작 전에 앱을 뒤로 보내기 (숨기지 않음)
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.hide();
+    // macOS에서 다른 앱 활성화 (내 앱은 그대로 뒤에 유지)
+    if (process.platform === 'darwin') {
+      const { exec } = require('child_process');
+      exec('osascript -e \'tell application "System Events" to set frontmost of first process whose frontmost is false to true\'');
+    }
   }
 
   try {
@@ -327,8 +331,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
         ? (permissionGuidesMac[lang] || permissionGuidesMac.en)
         : (permissionGuidesWindows[lang] || permissionGuidesWindows.en);
       
-      // 에러 발생 시 앱 다시 보이기
-      mainWindow?.show();
+      // 에러 발생 시 앱 다시 앞으로
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.focus();
+      }
       
       mainWindow?.webContents.send('capture-progress', {
         current: 0,
@@ -346,8 +352,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
       ? (permissionGuidesMac[lang] || permissionGuidesMac.en)
       : (permissionGuidesWindows[lang] || permissionGuidesWindows.en);
     
-    // 에러 발생 시 앱 다시 보이기
-    mainWindow?.show();
+    // 에러 발생 시 앱 다시 앞으로
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.focus();
+    }
     
     mainWindow?.webContents.send('capture-progress', {
       current: 0,
@@ -375,9 +383,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
 
     await captureService.cleanup();
 
-    // 완료 후 앱 다시 보이기
-    mainWindow?.show();
-    mainWindow?.focus();
+    // 완료 후 앱 다시 앞으로
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.focus();
+    }
 
     mainWindow?.webContents.send('capture-progress', {
       current: settings.totalPages,
@@ -388,8 +397,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     
-    // 에러 발생 시 앱 다시 보이기
-    mainWindow?.show();
+    // 에러 발생 시 앱 다시 앞으로
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.focus();
+    }
     
     if (errorMessage.includes('Failed to send keyboard input')) {
       const lang = settings.language || 'en';

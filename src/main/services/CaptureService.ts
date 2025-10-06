@@ -79,6 +79,15 @@ export class CaptureService {
         .png({ quality: 100, compressionLevel: 0 })
         .toBuffer();
 
+      // 찰칵 소리 (macOS 기본 카메라 셔터음)
+      if (process.platform === 'darwin') {
+        try {
+          exec('afplay /System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/system/camera_shutter_burst.caf');
+        } catch (e) {
+          // 소리 재생 실패해도 무시
+        }
+      }
+
       return croppedImage;
     } catch (error) {
       if (error instanceof Error && error.message.includes('Failed to get sources')) {

@@ -33,6 +33,10 @@ module.exports = [
           {
             from: 'node_modules/pdfkit/js/data',
             to: 'data'
+          },
+          {
+            from: 'assets',
+            to: 'assets'
           }
         ]
       })
@@ -94,6 +98,14 @@ module.exports = [
     plugins: [
       new HtmlWebpackPlugin({
         template: './public/index.html'
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'public/icon.png',
+            to: 'icon.png'
+          }
+        ]
       })
     ],
     resolve: {

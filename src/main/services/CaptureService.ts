@@ -118,7 +118,13 @@ export class CaptureService {
     
     try {
       if (platform === 'darwin') {
-        await execAsync(`osascript -e 'tell application "System Events" to key code 124'`);
+        // 오른쪽 화살표 키 (124) 또는 엔터 키 (36) 시도
+        try {
+          await execAsync(`osascript -e 'tell application "System Events" to key code 124'`);
+        } catch (error) {
+          // 오른쪽 화살표가 실패하면 엔터 시도
+          await execAsync(`osascript -e 'tell application "System Events" to key code 36'`);
+        }
       } else if (platform === 'win32') {
         await execAsync(`powershell -command "$wsh = New-Object -ComObject WScript.Shell; $wsh.SendKeys('{RIGHT}')"`);
       } else {

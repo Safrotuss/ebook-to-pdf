@@ -34,6 +34,7 @@ function createWindow(): void {
     width: 700,
     height: 650,
     resizable: true,
+    icon: path.join(__dirname, '../assets/icon.png'),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

@@ -224,6 +224,9 @@ export const App: React.FC = () => {
   return (
     <div className="container">
       <div className="header">
+        <div className="header-left">
+          <img src="icon.png" alt="App Icon" className="app-icon" />
+        </div>
         <h1 className="title">{t('app.title')}</h1>
         <div className="lang-selector">
           <button 

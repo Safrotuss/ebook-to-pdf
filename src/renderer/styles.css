@@ -24,12 +24,33 @@ body {
   margin-bottom: 20px;
 }
 
+.header-left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.app-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
 .title {
   flex: 1;
   text-align: center;
   font-size: 26px;
   font-weight: bold;
   color: #333;
+  margin: 0;
+}
+
+.lang-selector {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
 }
 
 .lang-selector {

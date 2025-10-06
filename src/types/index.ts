@@ -46,6 +46,7 @@ declare global {
       onCaptureProgress: (callback: (progress: CaptureProgress) => void) => void;
       reset: () => Promise<void>;
       openCurrentFolder: () => Promise<void>;
+      getDefaultDownloadPath: () => Promise<string>;
     };
   }
 }

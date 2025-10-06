@@ -18,7 +18,9 @@
     "captureSpeedPlaceholder": "캡처 간격 (밀리초)",
     "createPDF": "PDF로 만들기",
     "reset": "초기화",
-    "refreshPermission": "권한 새로고침"
+    "refreshPermission": "권한 새로고침",
+    "captureInfo": "시작 버튼을 누르고 앱이 사라지면 캡처를 시작할 앱을 클릭해주세요. (클릭하면 1초 뒤 자동으로 캡처가 시작됩니다.)",
+    "defaultPath": "기본값"
   },
   "status": {
     "ready": "준비됨",

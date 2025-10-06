@@ -18,7 +18,9 @@
     "captureSpeedPlaceholder": "Capture interval (milliseconds)",
     "createPDF": "Create PDF",
     "reset": "Reset",
-    "refreshPermission": "Refresh Permission"
+    "refreshPermission": "Refresh Permission",
+    "captureInfo": "After clicking the start button, click on the app you want to capture. (Capture will start automatically 1 second after clicking)",
+    "defaultPath": "Default"
   },
   "status": {
     "ready": "Ready",

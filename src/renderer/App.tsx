@@ -9,6 +9,7 @@ export const App: React.FC = () => {
   const [totalPages, setTotalPages] = useState<string>('');
   const [fileName, setFileName] = useState<string>('');
   const [savePath, setSavePath] = useState<string>('');
+  const [defaultDownloadPath, setDefaultDownloadPath] = useState<string>('');
   const [captureSpeed, setCaptureSpeed] = useState<string>(String(DEFAULT_CAPTURE_SPEED));
   const [progress, setProgress] = useState<CaptureProgress>({
     current: 0,
@@ -21,6 +22,13 @@ export const App: React.FC = () => {
     window.electronAPI.onCaptureProgress((progressData) => {
       setProgress(progressData);
     });
+    
+    // 기본 다운로드 폴더 경로 가져오기
+    const getDefaultPath = async () => {
+      const path = await window.electronAPI.getDefaultDownloadPath();
+      setDefaultDownloadPath(path);
+    };
+    getDefaultPath();
   }, []);
 
   const handleTopLeftClick = async (): Promise<void> => {
@@ -157,7 +165,7 @@ export const App: React.FC = () => {
                   alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
                 }}
               >
-                화면 녹화 설정 열기
+                copy
               </button>
             </div>
             <div className="command-container" style={{ marginTop: '5px', marginBottom: '5px' }}>
@@ -169,7 +177,7 @@ export const App: React.FC = () => {
                   alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
                 }}
               >
-                접근성 설정 열기
+                copy
               </button>
             </div>
           </React.Fragment>
@@ -284,7 +292,7 @@ export const App: React.FC = () => {
           <label>{t('form.savePath')}</label>
           <input
             type="text"
-            value={savePath}
+            value={savePath || `(${t('form.defaultPath')}: ${defaultDownloadPath})`}
             placeholder={t('form.savePathPlaceholder')}
             disabled
             className="path-input"
@@ -308,6 +316,12 @@ export const App: React.FC = () => {
             max="5000"
             disabled={isCapturing}
           />
+        </div>
+
+        <div className="info-box">
+          <div className="info-text">
+            {t('form.captureInfo')}
+          </div>
         </div>
       </div>
 

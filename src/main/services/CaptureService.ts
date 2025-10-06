@@ -34,7 +34,7 @@ export class CaptureService {
     };
   }
 
-  private async captureScreen(region: CaptureRegion): Promise<Buffer> {
+  private async captureScreen(region: CaptureRegion, isLastPage: boolean = false): Promise<Buffer> {
     try {
       const display = screen.getPrimaryDisplay();
       const scaleFactor = display.scaleFactor;
@@ -91,8 +91,8 @@ export class CaptureService {
         .png({ quality: 100, compressionLevel: 0 })
         .toBuffer();
 
-      // 찰칵 소리 (macOS 기본 소리)
-      if (process.platform === 'darwin') {
+      // 찰칵 소리 (macOS 기본 소리) - 마지막 페이지가 아닐 때만
+      if (!isLastPage && process.platform === 'darwin') {
         try {
           exec('afplay /System/Library/Sounds/Tink.aiff');
         } catch (e) {
@@ -149,7 +149,8 @@ export class CaptureService {
 
       await this.sleep(settings.captureSpeed);
 
-      const imageBuffer = await this.captureScreen(region);
+      const isLastPage = i === settings.totalPages;
+      const imageBuffer = await this.captureScreen(region, isLastPage);
       const imagePath = path.join(
         this.imagesDir,
         `img_${String(i).padStart(4, '0')}.png`

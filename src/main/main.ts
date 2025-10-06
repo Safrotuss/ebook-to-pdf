@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, dialog, desktopCapturer, systemPreferences } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, dialog, desktopCapturer, systemPreferences, shell } from 'electron';
 import * as path from 'path';
 import { CaptureService } from './services/CaptureService';
 import { PDFService } from './services/PDFService';
@@ -401,6 +401,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
       mainWindow.focus();
     }
 
+    // PDF 파일이 저장된 폴더 자동으로 열기
+    const pdfPath = path.join(settings.savePath || app.getPath('downloads'), `${settings.fileName}.pdf`);
+    shell.showItemInFolder(pdfPath);
+
     mainWindow?.webContents.send('capture-progress', {
       current: settings.totalPages,
       total: settings.totalPages,
@@ -452,4 +456,8 @@ ipcMain.handle('open-current-folder', async (): Promise<void> => {
   const { shell } = require('electron');
   const appPath = app.getPath('exe');
   await shell.showItemInFolder(appPath);
+});
+
+ipcMain.handle('get-default-download-path', async (): Promise<string> => {
+  return app.getPath('downloads');
 });

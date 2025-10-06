@@ -1,25 +1,31 @@
 {
   "app": {
-    "title": "电子书PDF转换器",
+    "title": "E-Book To PDF",
     "madeBy": "Made By efforthye"
   },
   "form": {
-    "topLeft": "左上角坐标",
-    "bottomRight": "右下角坐标",
+    "topLeft": "左上坐标",
+    "bottomRight": "右下坐标",
     "totalPages": "总页数",
-    "pdfName": "PDF文件名",
+    "pdfName": "PDF名称",
+    "savePath": "保存位置",
     "captureSpeed": "捕获速度 (ms)",
     "clickCoordinate": "选择坐标",
+    "browse": "浏览",
     "totalPagesPlaceholder": "请输入总页数。",
-    "pdfNamePlaceholder": "请输入PDF文件名。",
-    "captureSpeedPlaceholder": "捕获间隔（毫秒）",
+    "pdfNamePlaceholder": "请输入要创建的PDF名称。",
+    "savePathPlaceholder": "选择保存位置 (默认: 当前文件夹)",
+    "captureSpeedPlaceholder": "捕获间隔 (毫秒)",
     "createPDF": "创建PDF",
-    "reset": "重置"
+    "reset": "重置",
+    "refreshPermission": "刷新权限",
+    "captureInfo": "点击开始按钮后，当应用消失时，请点击要捕获的应用。（点击后1秒自动开始捕获）",
+    "defaultPath": "默认"
   },
   "status": {
     "ready": "准备就绪",
     "capturing": "捕获中...",
-    "converting": "转换为PDF中...",
+    "converting": "转换PDF中...",
     "completed": "PDF转换完成！",
     "error": "发生错误"
   },
@@ -40,10 +46,10 @@
   },
   "permission": {
     "screenRecordingTitle": "需要屏幕录制权限",
-    "screenRecordingMessage": "此应用需要屏幕录制权限才能捕获屏幕。",
+    "screenRecordingMessage": "此应用需要屏幕录制权限来捕获屏幕。",
     "accessibilityTitle": "需要辅助功能权限",
-    "accessibilityMessage": "此应用需要辅助功能权限以进行键盘输入。",
+    "accessibilityMessage": "此应用需要辅助功能权限来进行键盘输入。",
     "openSettings": "打开系统偏好设置",
-    "permissionGuide": "需要屏幕录制权限。\n\n请按照以下步骤操作:\n\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序:\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 在终端中运行:\nopen \"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture\""
+    "permissionGuide": "需要屏幕录制权限。\n\n请按照以下步骤操作:\n\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用:\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 在终端中运行:\nopen \"x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture\""
   }
 }

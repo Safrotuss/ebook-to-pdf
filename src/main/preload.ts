@@ -19,5 +19,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   reset: (): Promise<void> => ipcRenderer.invoke('reset'),
   
-  openCurrentFolder: (): Promise<void> => ipcRenderer.invoke('open-current-folder')
+  openCurrentFolder: (): Promise<void> => ipcRenderer.invoke('open-current-folder'),
+  
+  getDefaultDownloadPath: (): Promise<string> => ipcRenderer.invoke('get-default-download-path')
 });

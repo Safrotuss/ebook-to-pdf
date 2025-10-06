@@ -8,13 +8,19 @@
     "bottomRight": "右下座標",
     "totalPages": "総ページ数",
     "pdfName": "PDFファイル名",
+    "savePath": "保存場所",
     "captureSpeed": "キャプチャ速度 (ms)",
     "clickCoordinate": "座標を選択",
+    "browse": "参照",
     "totalPagesPlaceholder": "総ページ数を入力してください。",
     "pdfNamePlaceholder": "PDFファイル名を入力してください。",
+    "savePathPlaceholder": "保存場所を選択 (デフォルト: 現在のフォルダ)",
     "captureSpeedPlaceholder": "キャプチャ間隔（ミリ秒）",
     "createPDF": "PDF作成",
-    "reset": "リセット"
+    "reset": "リセット",
+    "refreshPermission": "権限を更新",
+    "captureInfo": "開始ボタンを押してアプリが消えたら、キャプチャしたいアプリをクリックしてください。（クリック後1秒で自動的にキャプチャが開始されます）",
+    "defaultPath": "デフォルト"
   },
   "status": {
     "ready": "準備完了",

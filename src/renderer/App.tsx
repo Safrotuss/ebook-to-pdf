@@ -79,7 +79,8 @@ export const App: React.FC = () => {
       });
     } catch (error) {
       console.error('Capture error:', error);
-      alert(t('message.errorOccurred', { error: String(error) }));
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      alert(errorMsg);
     }
   };
 

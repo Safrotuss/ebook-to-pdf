@@ -78,6 +78,7 @@ function createOverlayWindow(): void {
     maximizable: false,
     closable: true,
     fullscreenable: false,
+    parent: mainWindow || undefined,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -180,8 +181,11 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
+  // mainWindow가 존재하는지 확인 (오버레이만 닫혔을 수 있음)
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
   }
 });
 

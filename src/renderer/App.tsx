@@ -61,7 +61,7 @@ export const App: React.FC = () => {
     }
 
     const speed = parseInt(captureSpeed, 10);
-    if (isNaN(speed) || speed < 500 || speed > 5000) {
+    if (isNaN(speed) || speed < 50 || speed > 5000) {
       alert(t('message.fillAllFields'));
       return;
     }
@@ -304,7 +304,7 @@ export const App: React.FC = () => {
             value={captureSpeed}
             onChange={(e) => setCaptureSpeed(e.target.value)}
             placeholder={t('form.captureSpeedPlaceholder')}
-            min="500"
+            min="50"
             max="5000"
             disabled={isCapturing}
           />

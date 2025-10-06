@@ -20,14 +20,12 @@ function createWindow(): void {
     }
   });
 
-  // 개발 모드 확인: webpack-dev-server가 실행 중인지 체크
-  const isDev = process.env.NODE_ENV === 'development' || process.argv.includes('--dev');
-  
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:8080');
-  } else {
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  }
+  // index.html 파일이 존재하는지 확인하여 프로덕션 모드 판단
+  const indexPath = path.join(__dirname, 'index.html');
+  mainWindow.loadFile(indexPath).catch(() => {
+    // 개발 모드일 경우 localhost로 연결
+    mainWindow?.loadURL('http://localhost:8080');
+  });
 
   captureService = new CaptureService();
   pdfService = new PDFService();

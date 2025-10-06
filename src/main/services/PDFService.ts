@@ -4,16 +4,18 @@ import * as path from 'path';
 import sharp from 'sharp';
 
 export class PDFService {
-  async createPDF(imagePaths: string[], fileName: string): Promise<void> {
+  async createPDF(imagePaths: string[], fileName: string, savePath?: string): Promise<void> {
     if (imagePaths.length === 0) {
-      throw new Error('변환할 이미지가 없습니다.');
+      throw new Error('No images to convert.');
     }
 
     const firstImageInfo = await sharp(imagePaths[0]).metadata();
     const imageWidth = firstImageInfo.width || 595;
     const imageHeight = firstImageInfo.height || 842;
 
-    const pdfPath = path.join(process.cwd(), `${fileName}.pdf`);
+    const outputDir = savePath || process.cwd();
+    const pdfPath = path.join(outputDir, `${fileName}.pdf`);
+    
     const doc = new PDFDocument({
       size: [imageWidth, imageHeight],
       autoFirstPage: false

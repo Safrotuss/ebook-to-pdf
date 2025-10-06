@@ -2,21 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Point, CaptureProgress, DEFAULT_CAPTURE_SPEED } from '../types';
 
-type CoordinateMode = 'none' | 'topLeft' | 'bottomRight';
-
 export const App: React.FC = () => {
   const { t, i18n } = useTranslation();
   const [topLeft, setTopLeft] = useState<Point>({ x: 0, y: 0 });
   const [bottomRight, setBottomRight] = useState<Point>({ x: 0, y: 0 });
   const [totalPages, setTotalPages] = useState<string>('');
   const [fileName, setFileName] = useState<string>('');
+  const [savePath, setSavePath] = useState<string>('');
   const [captureSpeed, setCaptureSpeed] = useState<string>(String(DEFAULT_CAPTURE_SPEED));
   const [progress, setProgress] = useState<CaptureProgress>({
     current: 0,
     total: 0,
     status: 'idle'
   });
-  const [coordinateMode, setCoordinateMode] = useState<CoordinateMode>('none');
   const [showLangMenu, setShowLangMenu] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,27 +24,20 @@ export const App: React.FC = () => {
   }, []);
 
   const handleTopLeftClick = async (): Promise<void> => {
-    setCoordinateMode('topLeft');
-    // 창을 최소화하고 1초 후 좌표 가져오기
-    await window.electronAPI.minimizeWindow();
-    setTimeout(async () => {
-      const position = await window.electronAPI.getCursorPosition();
-      setTopLeft(position);
-      setCoordinateMode('none');
-      await window.electronAPI.restoreWindow();
-    }, 1000);
+    const position = await window.electronAPI.getCursorPosition();
+    setTopLeft(position);
   };
 
   const handleBottomRightClick = async (): Promise<void> => {
-    setCoordinateMode('bottomRight');
-    // 창을 최소화하고 1초 후 좌표 가져오기
-    await window.electronAPI.minimizeWindow();
-    setTimeout(async () => {
-      const position = await window.electronAPI.getCursorPosition();
-      setBottomRight(position);
-      setCoordinateMode('none');
-      await window.electronAPI.restoreWindow();
-    }, 1000);
+    const position = await window.electronAPI.getCursorPosition();
+    setBottomRight(position);
+  };
+
+  const handleSelectSavePath = async (): Promise<void> => {
+    const path = await window.electronAPI.selectSavePath();
+    if (path) {
+      setSavePath(path);
+    }
   };
 
   const handleStartCapture = async (): Promise<void> => {
@@ -83,7 +74,8 @@ export const App: React.FC = () => {
         bottomRight,
         totalPages: pages,
         fileName,
-        captureSpeed: speed
+        captureSpeed: speed,
+        savePath: savePath || undefined
       });
     } catch (error) {
       console.error('Capture error:', error);
@@ -96,9 +88,9 @@ export const App: React.FC = () => {
     setBottomRight({ x: 0, y: 0 });
     setTotalPages('');
     setFileName('');
+    setSavePath('');
     setCaptureSpeed(String(DEFAULT_CAPTURE_SPEED));
     setProgress({ current: 0, total: 0, status: 'idle' });
-    setCoordinateMode('none');
     await window.electronAPI.reset();
   };
 
@@ -147,10 +139,9 @@ export const App: React.FC = () => {
           <span className="coordinate">({topLeft.x}, {topLeft.y})</span>
           <button 
             onClick={handleTopLeftClick} 
-            disabled={isCapturing || coordinateMode !== 'none'}
-            className={coordinateMode === 'topLeft' ? 'active' : ''}
+            disabled={isCapturing}
           >
-            {coordinateMode === 'topLeft' ? '⏳' : t('form.clickCoordinate')}
+            {t('form.clickCoordinate')}
           </button>
         </div>
 
@@ -159,10 +150,9 @@ export const App: React.FC = () => {
           <span className="coordinate">({bottomRight.x}, {bottomRight.y})</span>
           <button 
             onClick={handleBottomRightClick} 
-            disabled={isCapturing || coordinateMode !== 'none'}
-            className={coordinateMode === 'bottomRight' ? 'active' : ''}
+            disabled={isCapturing}
           >
-            {coordinateMode === 'bottomRight' ? '⏳' : t('form.clickCoordinate')}
+            {t('form.clickCoordinate')}
           </button>
         </div>
 
@@ -186,6 +176,23 @@ export const App: React.FC = () => {
             placeholder={t('form.pdfNamePlaceholder')}
             disabled={isCapturing}
           />
+        </div>
+
+        <div className="row">
+          <label>{t('form.savePath')}</label>
+          <input
+            type="text"
+            value={savePath}
+            placeholder={t('form.savePathPlaceholder')}
+            disabled
+            className="path-input"
+          />
+          <button 
+            onClick={handleSelectSavePath}
+            disabled={isCapturing}
+          >
+            {t('form.browse')}
+          </button>
         </div>
 
         <div className="row">

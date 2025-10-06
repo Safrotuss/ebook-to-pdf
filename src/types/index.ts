@@ -16,6 +16,7 @@ export interface CaptureSettings {
   totalPages: number;
   fileName: string;
   captureSpeed: number;
+  savePath?: string;
 }
 
 export interface CaptureProgress {
@@ -33,8 +34,8 @@ declare global {
   interface Window {
     electronAPI: {
       getCursorPosition: () => Promise<Point>;
-      minimizeWindow: () => Promise<void>;
-      restoreWindow: () => Promise<void>;
+      setCoordinate: (point: Point) => Promise<void>;
+      selectSavePath: () => Promise<string | null>;
       startCapture: (settings: CaptureSettings) => Promise<void>;
       onCaptureProgress: (callback: (progress: CaptureProgress) => void) => void;
       reset: () => Promise<void>;

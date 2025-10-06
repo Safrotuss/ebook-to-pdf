@@ -4,9 +4,9 @@ import { CaptureSettings, Point, CaptureProgress } from '../types';
 contextBridge.exposeInMainWorld('electronAPI', {
   getCursorPosition: (): Promise<Point> => ipcRenderer.invoke('get-cursor-position'),
   
-  minimizeWindow: (): Promise<void> => ipcRenderer.invoke('minimize-window'),
+  setCoordinate: (point: Point): Promise<void> => ipcRenderer.invoke('set-coordinate', point),
   
-  restoreWindow: (): Promise<void> => ipcRenderer.invoke('restore-window'),
+  selectSavePath: (): Promise<string | null> => ipcRenderer.invoke('select-save-path'),
   
   startCapture: (settings: CaptureSettings): Promise<void> => 
     ipcRenderer.invoke('start-capture', settings),

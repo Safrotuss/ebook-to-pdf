@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { desktopCapturer, screen } from 'electron';
+import { desktopCapturer, screen, app } from 'electron';
 import sharp from 'sharp';
 import * as fs from 'fs/promises';
 import * as path from 'path';
@@ -29,7 +29,7 @@ export class CaptureService {
   private capturedImages: string[] = [];
 
   constructor() {
-    this.imagesDir = path.join(process.cwd(), 'temp_images');
+    this.imagesDir = path.join(app.getPath('temp'), 'ebook-to-pdf-temp');
   }
 
   private async ensureImagesDir(): Promise<void> {

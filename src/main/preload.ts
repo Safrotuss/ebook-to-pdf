@@ -15,5 +15,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('capture-progress', (_, progress) => callback(progress));
   },
   
-  reset: (): Promise<void> => ipcRenderer.invoke('reset')
+  reset: (): Promise<void> => ipcRenderer.invoke('reset'),
+  
+  openCurrentFolder: (): Promise<void> => ipcRenderer.invoke('open-current-folder')
 });

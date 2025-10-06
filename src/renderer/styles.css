@@ -187,17 +187,40 @@ input:disabled {
   line-height: 1.6;
 }
 
+.command-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.command-text {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #333;
+  background-color: #fff;
+  padding: 8px 12px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  word-break: break-all;
+}
+
 .copy-command-button {
-  margin: 15px 0 10px 0;
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #333;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   transition: background-color 0.2s;
+  white-space: nowrap;
 }
 
 .copy-command-button:hover {
@@ -206,6 +229,50 @@ input:disabled {
 
 .copy-command-button:active {
   background-color: #000;
+}
+
+.open-folder-button-small {
+  display: inline-block;
+  margin: 10px 0 5px 0;
+  padding: 6px 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.open-folder-button-small:hover {
+  background-color: #555;
+}
+
+.open-folder-button-small:active {
+  background-color: #000;
+}
+
+.open-folder-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 24px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.open-folder-button:hover {
+  background-color: #45a049;
+}
+
+.open-folder-button:active {
+  background-color: #3d8b40;
 }
 
 .progress-bar {

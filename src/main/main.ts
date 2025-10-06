@@ -12,9 +12,9 @@ let pendingCoordinateResolve: ((point: Point) => void) | null = null;
 
 const permissionGuidesMac: Record<string, string> = {
   en: 'Screen recording permission required.\n\n[macOS]\nPlease follow these steps.\n1. Open System Preferences (System Settings)\n2. Go to Privacy & Security > Screen Recording\n3. Click the lock icon to make changes\n4. Click + button and add this app.\n   /Applications/Electron.app\n   OR drag from node_modules/electron/dist/Electron.app\n5. Enable the checkbox\n6. Restart this app\n\nQuick access - Click the button below to copy command.',
-  ko: '화면 녹화 권한이 필요합니다.\n\n[macOS]\n다음 단계를 따라주세요.\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 화면 녹화로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다.\n   /Applications/Electron.app\n   또는 node_modules/electron/dist/Electron.app에서 드래그\n5. 체크박스를 활성화합니다\n6. 이 앱을 재시작합니다\n\n빠른 접근 - 아래 버튼을 눌러 명령어 복사.',
-  ja: '画面録画の許可が必要です。\n\n[macOS]\n次の手順に従ってください.\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加.\n   /Applications/Electron.app\n   またはnode_modules/electron/dist/Electron.appからドラッグ\n5. チェックボックスを有効にする\n6. このアプリを再起動\n\nクイックアクセス - 以下のボタンでコマンドをコピー.',
-  zh: '需要屏幕录制权限。\n\n[macOS]\n请按照以下步骤操作.\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序.\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 点击下方按钮复制命令.'
+  ko: '화면 녹화 권한이 필요합니다.\n\n[macOS]\n다음 단계를 따라주세요.\n1. 시스템 설정(또는 시스템 환경설정)을 엽니다\n2. 개인 정보 보호 및 보안 > 화면 녹화로 이동\n3. 자물쇠 아이콘을 클릭하여 변경 가능하게 합니다\n4. + 버튼을 클릭하고 이 앱을 추가합니다. (현재 폴더 열기 버튼 클릭)\n   /Applications/Electron.app\n   또는 node_modules/electron/dist/Electron.app에서 드래그\n5. 체크박스를 활성화합니다\n6. 이 앱을 재시작합니다\n\n빠른 접근 - 아래 버튼을 눌러 명령어 복사.',
+  ja: '画面録画の許可が必要です。\n\n[macOS]\n次の手順に従ってください.\n1. システム環境設定を開く\n2. プライバシーとセキュリティ > 画面録画に移動\n3. ロックアイコンをクリックして変更を許可\n4. +ボタンをクリックしてこのアプリを追加. (現在のフォルダを開くボタンをクリック)\n   /Applications/Electron.app\n   またはnode_modules/electron/dist/Electron.appからドラッグ\n5. チェックボックスを有効にする\n6. このアプリを再起動\n\nクイックアクセス - 以下のボタンでコマンドをコピー.',
+  zh: '需要屏幕录制权限。\n\n[macOS]\n请按照以下步骤操作.\n1. 打开系统偏好设置\n2. 转到 隐私与安全 > 屏幕录制\n3. 点击锁图标以允许更改\n4. 点击 + 按钮并添加此应用程序. (点击打开当前文件夹按钮)\n   /Applications/Electron.app\n   或从 node_modules/electron/dist/Electron.app 拖动\n5. 启用复选框\n6. 重新启动此应用\n\n快速访问 - 点击下方按钮复制命令.'
 };
 
 const permissionGuidesWindows: Record<string, string> = {
@@ -339,4 +339,10 @@ ipcMain.handle('reset', async (): Promise<void> => {
   if (captureService) {
     await captureService.cleanup();
   }
+});
+
+ipcMain.handle('open-current-folder', async (): Promise<void> => {
+  const { shell } = require('electron');
+  const currentDir = process.cwd();
+  await shell.openPath(currentDir);
 });

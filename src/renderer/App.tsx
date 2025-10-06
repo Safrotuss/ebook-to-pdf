@@ -49,12 +49,18 @@ export const App: React.FC = () => {
         totalPages: 1,
         fileName: 'test',
         captureSpeed: 1000,
+        savePath: undefined,
         language: i18n.language
       });
     } catch (error) {
       // 권한 에러면 여기서 표시하고 리턴
       const errorMsg = error instanceof Error ? error.message : String(error);
-      if (errorMsg.includes('Screen recording permission') || errorMsg.includes('Failed to get sources')) {
+      if (errorMsg.includes('Screen recording permission') || 
+          errorMsg.includes('화면 녹화 권한') || 
+          errorMsg.includes('画面録画') ||
+          errorMsg.includes('屏幕录制') ||
+          errorMsg.includes('Failed to get sources')) {
+        // 권한 에러는 이미 progress 상태로 표시되므로 그냥 리턴
         return;
       }
     }
@@ -118,6 +124,21 @@ export const App: React.FC = () => {
   const changeLanguage = (lang: string): void => {
     i18n.changeLanguage(lang);
     setShowLangMenu(false);
+    
+    // 권한 에러 상태일 때 언어 변경하면 메시지도 업데이트
+    if (progress.status === 'error' && progress.command) {
+      // 권한 체크 재시도
+      window.electronAPI.startCapture({
+        topLeft: { x: 0, y: 0 },
+        bottomRight: { x: 1, y: 1 },
+        totalPages: 1,
+        fileName: 'test',
+        captureSpeed: 1000,
+        language: lang
+      }).catch(() => {
+        // 에러는 무시 (이미 에러 상태이므로)
+      });
+    }
   };
 
   const getLanguageLabel = (): string => {
@@ -234,15 +255,26 @@ export const App: React.FC = () => {
         <div className="status">
           <div className="status-message" style={{ whiteSpace: 'pre-line' }}>{progress.message}</div>
           {progress.command && (
-            <button 
-              className="copy-command-button"
-              onClick={() => {
-                navigator.clipboard.writeText(progress.command!);
-                alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
-              }}
-            >
-              {t('permission.copyCommand') || 'Copy Command'}
-            </button>
+            <>
+              <button
+                className="open-folder-button-small"
+                onClick={() => window.electronAPI.openCurrentFolder()}
+              >
+                {t('form.openFolder') || 'Open Current Folder'}
+              </button>
+              <div className="command-container">
+                <code className="command-text">{progress.command}</code>
+                <button 
+                  className="copy-command-button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(progress.command!);
+                    alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
+                  }}
+                >
+                  {t('permission.copyCommand') || 'Copy Command'}
+                </button>
+              </div>
+            </>
           )}
           {progress.total > 0 && progress.status !== 'error' && (
             <div className="progress-bar">

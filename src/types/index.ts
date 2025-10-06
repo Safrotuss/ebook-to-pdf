@@ -41,6 +41,7 @@ declare global {
       startCapture: (settings: CaptureSettings) => Promise<void>;
       onCaptureProgress: (callback: (progress: CaptureProgress) => void) => void;
       reset: () => Promise<void>;
+      openCurrentFolder: () => Promise<void>;
     };
   }
 }

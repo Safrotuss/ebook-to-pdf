@@ -104,6 +104,10 @@ module.exports = [
           {
             from: 'public/icon.png',
             to: 'icon.png'
+          },
+          {
+            from: 'assets/globe.svg',
+            to: 'globe.svg'
           }
         ]
       })

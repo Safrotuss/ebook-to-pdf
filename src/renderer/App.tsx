@@ -233,7 +233,8 @@ export const App: React.FC = () => {
             className="lang-button" 
             onClick={() => setShowLangMenu(!showLangMenu)}
           >
-            {getLanguageLabel()} ▼
+            {getLanguageLabel()}
+            <img src="globe.svg" alt="Language" className="lang-icon" />
           </button>
           {showLangMenu && (
             <div className="lang-menu">

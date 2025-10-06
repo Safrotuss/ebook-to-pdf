@@ -5,11 +5,12 @@ A desktop application that automatically captures pages from E-Book viewers and 
 
 ## Features
 - Automatic screen region capture
-- Automatic page turning
+- Automatic page turning (Right arrow key or Enter key)
 - PDF conversion
 - Adjustable capture speed
 - Real-time progress display
 - Multi-platform support (macOS, Windows)
+- Multi-language support (English, Korean, Japanese, Chinese)
 
 ## Tech Stack
 - Electron
@@ -23,15 +24,20 @@ A desktop application that automatically captures pages from E-Book viewers and 
 npm install
 ```
 
-## Development
+## Running the Application
+
+### For Development
 ```bash
-npm run dev
-npx electron .
+# Build
+npm run build
+
+# Run
+npm start
 ```
 
-In a separate terminal.
+### For Production
 ```bash
-npm start
+# Coming soon
 ```
 
 ## Build
@@ -58,20 +64,25 @@ Build output will be in the `release` folder.
 3. Click to set the bottom-right coordinate of the capture area
 4. Enter the total number of pages
 5. Enter the PDF file name
-6. Adjust capture speed (default: 1000ms)
-7. Click "Create PDF" button
+6. Select save location (optional, default: Downloads folder)
+7. Adjust capture speed (default: 500ms)
+8. Click "Create PDF" button
+9. When the app minimizes, click on the app you want to capture (capture starts automatically 1 second after clicking)
 
 ## Important Notes
-- The E-Book viewer must support page navigation using the right arrow key
+- The E-Book viewer must support page navigation using the right arrow key or Enter key
 - The capture area must not exceed the viewer boundaries
 - Large page counts may take considerable time
 - Do not perform other tasks during capture
 - For personal use only
+- The folder containing the PDF will open automatically when capture is complete
 
 ## System Requirements
 ### macOS
 - macOS 10.14 or later
 - Screen Recording permission required
+- Accessibility permission required (for keyboard input)
+
 ### Windows
 - Windows 10 or later
 - PowerShell 5.0 or later

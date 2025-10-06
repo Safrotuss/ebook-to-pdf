@@ -67,11 +67,20 @@ body {
   font-weight: bold;
   transition: all 0.2s;
   min-width: 70px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .lang-button:hover {
-  background-color: #000;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   border-color: #000;
 }
 

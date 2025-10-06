@@ -41,7 +41,6 @@ export const App: React.FC = () => {
   };
 
   const handleStartCapture = async (): Promise<void> => {
-    // 권한 체크를 가장 먼저
     try {
       await window.electronAPI.startCapture({
         topLeft: { x: 0, y: 0 },
@@ -53,19 +52,16 @@ export const App: React.FC = () => {
         language: i18n.language
       });
     } catch (error) {
-      // 권한 에러면 여기서 표시하고 리턴
       const errorMsg = error instanceof Error ? error.message : String(error);
       if (errorMsg.includes('Screen recording permission') || 
           errorMsg.includes('화면 녹화 권한') || 
           errorMsg.includes('画面録画') ||
           errorMsg.includes('屏幕录制') ||
           errorMsg.includes('Failed to get sources')) {
-        // 권한 에러는 이미 progress 상태로 표시되므로 그냥 리턴
         return;
       }
     }
 
-    // 권한이 있으면 입력값 검증
     if (!totalPages || !fileName) {
       alert(t('message.fillAllFields'));
       return;
@@ -125,9 +121,7 @@ export const App: React.FC = () => {
     i18n.changeLanguage(lang);
     setShowLangMenu(false);
     
-    // 권한 에러 상태일 때 언어 변경하면 메시지도 업데이트
     if (progress.status === 'error' && progress.command) {
-      // 권한 체크 재시도
       window.electronAPI.startCapture({
         topLeft: { x: 0, y: 0 },
         bottomRight: { x: 1, y: 1 },
@@ -135,9 +129,7 @@ export const App: React.FC = () => {
         fileName: 'test',
         captureSpeed: 1000,
         language: lang
-      }).catch(() => {
-        // 에러는 무시 (이미 에러 상태이므로)
-      });
+      }).catch(() => {});
     }
   };
 
@@ -149,6 +141,55 @@ export const App: React.FC = () => {
       zh: 'ZH'
     };
     return labels[i18n.language] || 'EN';
+  };
+
+  const renderMessage = () => {
+    if (!progress.message) return null;
+    
+    const lines = progress.message.split('\n');
+    const elements: React.ReactElement[] = [];
+    
+    lines.forEach((line, index) => {
+      if (line.includes('2.') && progress.command) {
+        elements.push(
+          <React.Fragment key={`line-${index}`}>
+            {line}
+            <br />
+            <div className="command-container" style={{ marginTop: '5px', marginBottom: '5px' }}>
+              <code className="command-text">{progress.command}</code>
+              <button 
+                className="copy-command-button"
+                onClick={() => {
+                  navigator.clipboard.writeText(progress.command!);
+                  alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
+                }}
+              >
+                {t('permission.copyCommand') || 'Copy Command'}
+              </button>
+            </div>
+          </React.Fragment>
+        );
+      } else if (line.includes('4.') && progress.command) {
+        elements.push(
+          <React.Fragment key={`line-${index}`}>
+            {line}
+            <br />
+            <button
+              className="open-folder-button-small"
+              onClick={() => window.electronAPI.openCurrentFolder()}
+              style={{ marginLeft: '20px', marginTop: '5px', marginBottom: '5px' }}
+            >
+              {t('form.openFolder') || 'Open App Location'}
+            </button>
+            <br />
+          </React.Fragment>
+        );
+      } else {
+        elements.push(<React.Fragment key={`line-${index}`}>{line}<br /></React.Fragment>);
+      }
+    });
+    
+    return <>{elements}</>;
   };
 
   const isCapturing = progress.status === 'capturing' || progress.status === 'converting';
@@ -253,29 +294,9 @@ export const App: React.FC = () => {
 
       {progress.status !== 'idle' && (
         <div className="status">
-          <div className="status-message" style={{ whiteSpace: 'pre-line' }}>{progress.message}</div>
-          {progress.command && (
-            <>
-              <button
-                className="open-folder-button-small"
-                onClick={() => window.electronAPI.openCurrentFolder()}
-              >
-                {t('form.openFolder') || 'Open Current Folder'}
-              </button>
-              <div className="command-container">
-                <code className="command-text">{progress.command}</code>
-                <button 
-                  className="copy-command-button"
-                  onClick={() => {
-                    navigator.clipboard.writeText(progress.command!);
-                    alert('명령어가 클립보드에 복사되었습니다!\n터미널에 붙여넣기 후 실행하세요.');
-                  }}
-                >
-                  {t('permission.copyCommand') || 'Copy Command'}
-                </button>
-              </div>
-            </>
-          )}
+          <div className="status-message">
+            {renderMessage()}
+          </div>
           {progress.total > 0 && progress.status !== 'error' && (
             <div className="progress-bar">
               <div

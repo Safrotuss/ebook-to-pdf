@@ -343,6 +343,6 @@ ipcMain.handle('reset', async (): Promise<void> => {
 
 ipcMain.handle('open-current-folder', async (): Promise<void> => {
   const { shell } = require('electron');
-  const currentDir = process.cwd();
-  await shell.openPath(currentDir);
+  const appPath = app.getPath('exe');
+  await shell.showItemInFolder(appPath);
 });

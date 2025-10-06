@@ -33,7 +33,10 @@
     "conversionComplete": "PDF转换完成！",
     "errorOccurred": "发生错误: {{error}}",
     "clickToSetCoordinate": "下次点击的位置将被设置为坐标",
-    "coordinateSetMode": "坐标设置模式 - 请点击目标位置"
+    "coordinateSetMode": "坐标设置模式 - 请点击目标位置",
+    "overlayTitle": "点击任意位置选择坐标",
+    "overlayCancel": "按ESC键取消",
+    "overlayCoords": "X: {{x}}, Y: {{y}}"
   },
   "permission": {
     "screenRecordingTitle": "需要屏幕录制权限",

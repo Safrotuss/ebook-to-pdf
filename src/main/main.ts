@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, screen, dialog, systemPreferences, globalShortcut } from 'electron';
+import { app, BrowserWindow, ipcMain, screen, dialog } from 'electron';
 import * as path from 'path';
 import { CaptureService } from './services/CaptureService';
 import { PDFService } from './services/PDFService';
@@ -9,28 +9,6 @@ let overlayWindow: BrowserWindow | null = null;
 let captureService: CaptureService | null = null;
 let pdfService: PDFService | null = null;
 let pendingCoordinateResolve: ((point: Point) => void) | null = null;
-
-async function checkScreenCapturePermission(): Promise<boolean> {
-  if (process.platform === 'darwin') {
-    const status = systemPreferences.getMediaAccessStatus('screen');
-    if (status !== 'granted') {
-      const result = await dialog.showMessageBox({
-        type: 'warning',
-        title: 'Screen Recording Permission Required',
-        message: 'This app needs screen recording permission to capture pages.',
-        buttons: ['Open System Preferences', 'Cancel'],
-        defaultId: 0,
-        cancelId: 1
-      });
-
-      if (result.response === 0) {
-        await require('child_process').exec('open "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"');
-      }
-      return false;
-    }
-  }
-  return true;
-}
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -184,11 +162,27 @@ app.on('window-all-closed', () => {
   }
 });
 
-ipcMain.handle('get-cursor-position', async (): Promise<Point> => {
+ipcMain.handle('get-cursor-position', async (_, language: string): Promise<Point> => {
   return new Promise((resolve, reject) => {
     pendingCoordinateResolve = resolve;
     
     createOverlayWindow();
+    
+    // 언어별 번역
+    const translations: Record<string, { title: string; cancel: string }> = {
+      en: { title: 'Click anywhere to select coordinate', cancel: 'Press ESC to cancel' },
+      ko: { title: '좌표를 선택하려면 아무 곳이나 클릭하세요', cancel: 'ESC 키를 눌러 취소' },
+      ja: { title: '座標を選択するには任意の場所をクリック', cancel: 'ESCキーでキャンセル' },
+      zh: { title: '点击任意位置选择坐标', cancel: '按ESC键取消' }
+    };
+    
+    const t = translations[language] || translations.en;
+    
+    if (overlayWindow) {
+      overlayWindow.webContents.executeJavaScript(`
+        document.querySelector('.message').innerHTML = '${t.title}<br><small style="font-size:14px; font-weight:normal;">${t.cancel}</small>';
+      `);
+    }
     
     const clickHandler = (_: any, point: Point) => {
       if (pendingCoordinateResolve) {
@@ -247,11 +241,6 @@ ipcMain.handle('select-save-path', async (): Promise<string | null> => {
 ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<void> => {
   if (!captureService || !pdfService) {
     throw new Error('Services not initialized');
-  }
-
-  const hasPermission = await checkScreenCapturePermission();
-  if (!hasPermission) {
-    throw new Error('Screen recording permission is required. Please enable it in System Preferences.');
   }
 
   try {

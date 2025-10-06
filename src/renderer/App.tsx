@@ -24,12 +24,12 @@ export const App: React.FC = () => {
   }, []);
 
   const handleTopLeftClick = async (): Promise<void> => {
-    const position = await window.electronAPI.getCursorPosition();
+    const position = await window.electronAPI.getCursorPosition(i18n.language);
     setTopLeft(position);
   };
 
   const handleBottomRightClick = async (): Promise<void> => {
-    const position = await window.electronAPI.getCursorPosition();
+    const position = await window.electronAPI.getCursorPosition(i18n.language);
     setBottomRight(position);
   };
 

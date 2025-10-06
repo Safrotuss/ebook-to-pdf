@@ -36,7 +36,10 @@
     "conversionComplete": "PDF conversion completed!",
     "errorOccurred": "An error occurred: {{error}}",
     "clickToSetCoordinate": "The next click position will be set as coordinate",
-    "coordinateSetMode": "Coordinate Setting Mode - Click the target position"
+    "coordinateSetMode": "Coordinate Setting Mode - Click the target position",
+    "overlayTitle": "Click anywhere to select coordinate",
+    "overlayCancel": "Press ESC to cancel",
+    "overlayCoords": "X: {{x}}, Y: {{y}}"
   },
   "permission": {
     "screenRecordingTitle": "Screen Recording Permission Required",

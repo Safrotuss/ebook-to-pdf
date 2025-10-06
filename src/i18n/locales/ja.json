@@ -33,7 +33,10 @@
     "conversionComplete": "PDF変換が完了しました！",
     "errorOccurred": "エラーが発生しました: {{error}}",
     "clickToSetCoordinate": "次にクリックした位置が座標として設定されます",
-    "coordinateSetMode": "座標設定モード - 目的の位置をクリックしてください"
+    "coordinateSetMode": "座標設定モード - 目的の位置をクリックしてください",
+    "overlayTitle": "座標を選択するには任意の場所をクリック",
+    "overlayCancel": "ESCキーでキャンセル",
+    "overlayCoords": "X: {{x}}, Y: {{y}}"
   },
   "permission": {
     "screenRecordingTitle": "画面録画の許可が必要です",

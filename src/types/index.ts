@@ -33,7 +33,7 @@ export const MAX_CAPTURE_SPEED = 5000;
 declare global {
   interface Window {
     electronAPI: {
-      getCursorPosition: () => Promise<Point>;
+      getCursorPosition: (language: string) => Promise<Point>;
       setCoordinate: (point: Point) => Promise<void>;
       selectSavePath: () => Promise<string | null>;
       startCapture: (settings: CaptureSettings) => Promise<void>;

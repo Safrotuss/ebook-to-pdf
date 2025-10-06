@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 import { CaptureSettings, Point, CaptureProgress } from '../types';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  getCursorPosition: (): Promise<Point> => ipcRenderer.invoke('get-cursor-position'),
+  getCursorPosition: (language: string): Promise<Point> => ipcRenderer.invoke('get-cursor-position', language),
   
   setCoordinate: (point: Point): Promise<void> => ipcRenderer.invoke('set-coordinate', point),
   

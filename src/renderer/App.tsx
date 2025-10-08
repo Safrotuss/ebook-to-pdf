@@ -127,6 +127,10 @@ export const App: React.FC = () => {
     await window.electronAPI.reset();
   };
 
+  const handleStopCapture = async (): Promise<void> => {
+    await (window.electronAPI as any).stopCapture();
+  };
+
   const handleRefreshPermission = async (): Promise<void> => {
     try {
       const hasPermission = await window.electronAPI.checkPermissions(i18n.language);
@@ -371,13 +375,21 @@ export const App: React.FC = () => {
         >
           {t('form.reset')}
         </button>
-        <button
-          className="main-button"
-          onClick={handleStartCapture}
-          disabled={isCapturing}
-        >
-          {t('form.createPDF')}
-        </button>
+        {isCapturing ? (
+          <button
+            className="stop-button"
+            onClick={handleStopCapture}
+          >
+            {t('form.stop')}
+          </button>
+        ) : (
+          <button
+            className="main-button"
+            onClick={handleStartCapture}
+          >
+            {t('form.createPDF')}
+          </button>
+        )}
       </div>
 
       <div className="signature">{t('app.madeBy')}</div>

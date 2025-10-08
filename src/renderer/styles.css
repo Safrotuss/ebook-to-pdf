@@ -394,6 +394,20 @@ input:disabled {
   background-color: #333;
 }
 
+.stop-button {
+  flex: 2;
+  padding: 14px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.stop-button:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
 .signature {
   text-align: right;
   font-size: 12px;

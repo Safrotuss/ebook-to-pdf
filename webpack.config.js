@@ -83,7 +83,15 @@ module.exports = [
         {
           test: /\.tsx?$/,
           include: /src/,
-          use: [{ loader: 'ts-loader' }]
+          use: [{ 
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: false,
+              compilerOptions: {
+                noEmit: false
+              }
+            }
+          }]
         },
         {
           test: /\.css$/,
@@ -114,6 +122,7 @@ module.exports = [
     ],
     resolve: {
       extensions: ['.tsx', '.ts', '.js']
-    }
+    },
+    cache: false
   }
 ];

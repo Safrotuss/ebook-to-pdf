@@ -29,6 +29,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   startCapture: (settings: CaptureSettings): Promise<void> => 
     ipcRenderer.invoke('start-capture', settings),
   
+  stopCapture: (): Promise<void> => ipcRenderer.invoke('stop-capture'),
+  
   onCaptureProgress: (callback: (progress: CaptureProgress) => void): void => {
     ipcRenderer.on('capture-progress', (_, progress) => callback(progress));
   },

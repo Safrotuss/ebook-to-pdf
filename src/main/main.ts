@@ -478,3 +478,9 @@ ipcMain.handle('open-current-folder', async (): Promise<void> => {
 ipcMain.handle('get-default-download-path', async (): Promise<string> => {
   return app.getPath('downloads');
 });
+
+ipcMain.handle('stop-capture', async (): Promise<void> => {
+  if (captureService) {
+    captureService.stopCapture();
+  }
+});

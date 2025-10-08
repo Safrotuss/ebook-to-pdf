@@ -17,10 +17,12 @@
     "savePathPlaceholder": "Select save location (default: current folder)",
     "captureSpeedPlaceholder": "Capture interval (milliseconds)",
     "createPDF": "Create PDF",
+    "stop": "Stop",
     "reset": "Reset",
     "refreshPermission": "Refresh Permission",
     "captureInfo": "After clicking the start button, click on the app you want to capture. (Capture will start automatically 1 second after clicking)",
-    "defaultPath": "Default"
+    "defaultPath": "Default",
+    "openFolder": "Open App Location"
   },
   "status": {
     "ready": "Ready",

@@ -17,10 +17,12 @@
     "savePathPlaceholder": "选择保存位置 (默认: 当前文件夹)",
     "captureSpeedPlaceholder": "捕获间隔 (毫秒)",
     "createPDF": "创建PDF",
+    "stop": "停止",
     "reset": "重置",
     "refreshPermission": "刷新权限",
     "captureInfo": "点击开始按钮后，当应用消失时，请点击要捕获的应用。（点击后1秒自动开始捕获）",
-    "defaultPath": "默认"
+    "defaultPath": "默认",
+    "openFolder": "打开应用位置"
   },
   "status": {
     "ready": "准备就绪",

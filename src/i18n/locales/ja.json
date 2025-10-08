@@ -17,10 +17,12 @@
     "savePathPlaceholder": "保存場所を選択 (デフォルト: 現在のフォルダ)",
     "captureSpeedPlaceholder": "キャプチャ間隔（ミリ秒）",
     "createPDF": "PDF作成",
+    "stop": "停止",
     "reset": "リセット",
     "refreshPermission": "権限を更新",
     "captureInfo": "開始ボタンを押してアプリが消えたら、キャプチャしたいアプリをクリックしてください。（クリック後1秒で自動的にキャプチャが開始されます）",
-    "defaultPath": "デフォルト"
+    "defaultPath": "デフォルト",
+    "openFolder": "アプリの場所を開く"
   },
   "status": {
     "ready": "準備完了",

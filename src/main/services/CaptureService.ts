@@ -27,9 +27,14 @@ const execAsync = promisify(exec);
 export class CaptureService {
   private readonly imagesDir: string;
   private capturedImages: string[] = [];
+  private shouldStop: boolean = false;
 
   constructor() {
     this.imagesDir = path.join(app.getPath('temp'), 'ebook-to-pdf-temp');
+  }
+
+  stopCapture(): void {
+    this.shouldStop = true;
   }
 
   private async ensureImagesDir(): Promise<void> {
@@ -158,10 +163,21 @@ export class CaptureService {
   ): Promise<string[]> {
     await this.ensureImagesDir();
     this.capturedImages = [];
+    this.shouldStop = false;
 
     const region = this.getCaptureRegion(settings);
 
     for (let i = 1; i <= settings.totalPages; i++) {
+      if (this.shouldStop) {
+        onProgress({
+          current: i - 1,
+          total: settings.totalPages,
+          status: 'converting',
+          message: `Stopped at page ${i - 1}. Converting to PDF...`
+        });
+        break;
+      }
+
       onProgress({
         current: i,
         total: settings.totalPages,
@@ -181,7 +197,7 @@ export class CaptureService {
       await fs.writeFile(imagePath, imageBuffer);
       this.capturedImages.push(imagePath);
 
-      if (i < settings.totalPages) {
+      if (i < settings.totalPages && !this.shouldStop) {
         await this.pressRightArrow();
       }
     }

@@ -16,6 +16,7 @@
 
 import PDFDocument from 'pdfkit';
 import * as fs from 'fs';
+import * as fsp from 'fs/promises';
 import * as path from 'path';
 import sharp from 'sharp';
 
@@ -31,6 +32,27 @@ export class PDFService {
 
     const outputDir = savePath || process.cwd();
     const pdfPath = path.join(outputDir, `${fileName}.pdf`);
+    
+    // 권한 확인 및 디렉토리 생성
+    try {
+      await fsp.access(outputDir, fs.constants.W_OK);
+    } catch (error) {
+      // 디렉토리가 없거나 권한이 없는 경우
+      try {
+        await fsp.mkdir(outputDir, { recursive: true });
+      } catch (mkdirError) {
+        throw new Error(`Cannot write to directory: ${outputDir}. Please check permissions or choose another location.`);
+      }
+    }
+
+    // 쓰기 테스트
+    try {
+      const testFile = path.join(outputDir, '.write_test');
+      await fsp.writeFile(testFile, '');
+      await fsp.unlink(testFile);
+    } catch (error) {
+      throw new Error(`Cannot write to directory: ${outputDir}. Please check permissions or choose another location.`);
+    }
     
     const doc = new PDFDocument({
       size: [imageWidth, imageHeight],

@@ -403,13 +403,62 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     });
 
     mainWindow?.webContents.send('capture-progress', {
-      current: settings.totalPages,
+      current: images.length,
       total: settings.totalPages,
       status: 'converting',
       message: 'Converting to PDF...'
     });
 
-    await pdfService.createPDF(images, settings.fileName, settings.savePath);
+    try {
+      await pdfService.createPDF(images, settings.fileName, settings.savePath);
+    } catch (pdfError) {
+      const errorMsg = pdfError instanceof Error ? pdfError.message : 'PDF creation failed';
+      
+      // 권한 문제인 경우
+      if (errorMsg.includes('Cannot write to directory')) {
+        await captureService.cleanup();
+        
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.focus();
+        }
+        
+        // 사용자에게 다른 폴더 선택하도록 안내
+        const result = await dialog.showMessageBox(mainWindow!, {
+          type: 'error',
+          title: 'Permission Error',
+          message: errorMsg,
+          buttons: ['Choose Another Folder', 'Cancel'],
+          defaultId: 0
+        });
+        
+        if (result.response === 0) {
+          // 다른 폴더 선택
+          const newPath = await dialog.showOpenDialog(mainWindow!, {
+            properties: ['openDirectory', 'createDirectory'],
+            title: 'Select PDF Save Location'
+          });
+          
+          if (!newPath.canceled && newPath.filePaths.length > 0) {
+            // 선택한 폴더로 다시 시도
+            mainWindow?.webContents.send('capture-progress', {
+              current: images.length,
+              total: settings.totalPages,
+              status: 'converting',
+              message: 'Saving to new location...'
+            });
+            
+            await pdfService.createPDF(images, settings.fileName, newPath.filePaths[0]);
+            settings.savePath = newPath.filePaths[0];
+          } else {
+            throw new Error('PDF save cancelled by user');
+          }
+        } else {
+          throw new Error('PDF save cancelled by user');
+        }
+      } else {
+        throw pdfError;
+      }
+    }
 
     await captureService.cleanup();
 
@@ -423,10 +472,10 @@ ipcMain.handle('start-capture', async (_, settings: CaptureSettings): Promise<vo
     shell.showItemInFolder(pdfPath);
 
     mainWindow?.webContents.send('capture-progress', {
-      current: settings.totalPages,
+      current: images.length,
       total: settings.totalPages,
       status: 'completed',
-      message: 'PDF conversion completed!'
+      message: `PDF conversion completed! (${images.length} pages)`
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';

